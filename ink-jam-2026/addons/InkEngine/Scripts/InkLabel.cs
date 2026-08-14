@@ -10,7 +10,9 @@ public partial class InkLabel : Control
 	[Export]
 	private bool fadeInText = true;
 	[Export]
-	private float fadeInTime = 0.5f;
+	private bool writeInText = false;
+	[Export]
+	private float fadeInSpeed = 0.5f;
 	[Export]
 	private RichTextLabel textLabel;
 	[Export]
@@ -22,7 +24,7 @@ public partial class InkLabel : Control
 	public virtual void Init(string text, List<string> tags = default)
 	{
 		Text = text;
-		if (fadeInText && WeakRef(this) != null)
+		if ((fadeInText || writeInText) && WeakRef(this) != null)
 		{
 			AnimateLabel();
 		}
@@ -75,11 +77,20 @@ public partial class InkLabel : Control
 	}
 	public virtual void AnimateLabel()
 	{
-		//textLabel.VisibleRatio = 0f;
-		textLabel.SelfModulate = new Color(textLabel.Modulate, 0f);
-		Tween tween = textLabel.CreateTween();
-		tween.TweenProperty(textLabel, "self_modulate:a", 1f, 0.55f).SetTrans(Tween.TransitionType.Sine);
-		//tween.TweenProperty(textLabel, "visible_ratio", 1f, fadeInTime).SetTrans(Tween.TransitionType.Sine);
+
+		if (fadeInText)
+		{
+			textLabel.SelfModulate = new Color(textLabel.Modulate, 0f);
+			Tween tween = textLabel.CreateTween();
+			tween.TweenProperty(textLabel, "self_modulate:a", 1f, 0.55f).SetTrans(Tween.TransitionType.Sine);
+		}
+		if (writeInText)
+		{
+			float fadeInTime = textLabel.Text.Length / (fadeInSpeed*100f);
+			textLabel.VisibleRatio = 0f;
+			Tween tween2 = textLabel.CreateTween();
+			tween2.TweenProperty(textLabel, "visible_ratio", 1f, fadeInTime).SetTrans(Tween.TransitionType.Sine);
+		}
 	}
 	public override void _Ready()
 	{

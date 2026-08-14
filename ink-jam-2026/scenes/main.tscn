@@ -1,26 +1,174 @@
 [gd_scene format=3 uid="uid://bjqfq1g3upqwa"]
 
-[ext_resource type="PackedScene" uid="uid://pvn88xjsfue3" path="res://addons/InkEngine/Scenes/InkWriter.tscn" id="1_o5qli"]
 [ext_resource type="Resource" uid="uid://buwx2ihop2dqx" path="res://addons/InkEngine/InkFiles/main.ink" id="2_0wfyh"]
+[ext_resource type="Script" uid="uid://c760b1oo0gp1m" path="res://addons/InkEngine/Scripts/Inkwriter.cs" id="2_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://1we70hiin1om" path="res://addons/InkEngine/Scenes/InkBackgroundUI.tscn" id="3_jyhfs"]
 [ext_resource type="Texture2D" uid="uid://kej0pkeq3edh" path="res://graphics/UI/MainPanel01.png" id="4_tbgi4"]
+[ext_resource type="Theme" uid="uid://dp7p64i6xy7hr" path="res://addons/InkEngine/UI/dialogbox_theme.tres" id="4_tipki"]
+[ext_resource type="Script" uid="uid://qju08u1chs41" path="res://addons/InkEngine/Scripts/InkScrollContainer.cs" id="5_85g3d"]
+[ext_resource type="PackedScene" uid="uid://cx1wvq3fyad0h" path="res://addons/InkEngine/Scenes/InkPortrait.tscn" id="6_choun"]
+[ext_resource type="PackedScene" uid="uid://cvs7dcu5noyax" path="res://addons/InkEngine/Scenes/InkUI.tscn" id="8_85g3d"]
+[ext_resource type="PackedScene" uid="uid://cetuxojo4pi3o" path="res://addons/InkEngine/Scenes/InkLabel.tscn" id="9_choun"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fqjnf"]
+texture = ExtResource("4_tbgi4")
+texture_margin_left = 50.0
+texture_margin_top = 50.0
+texture_margin_right = 50.0
+texture_margin_bottom = 50.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rtbp5"]
 
 [node name="Control" type="CanvasLayer" unique_id=1811685178]
 
-[node name="Background" type="Panel" parent="." unique_id=565919669]
+[node name="BackgroundBlack" type="Panel" parent="." unique_id=565919669]
 self_modulate = Color(0, 0, 0, 1)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
-[node name="InkEngine" parent="." unique_id=412805178 instance=ExtResource("1_o5qli")]
+[node name="BackgroundScreen" type="Panel" parent="." unique_id=585642494]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_fqjnf")
+
+[node name="InkEngine" type="CanvasLayer" parent="." unique_id=412805178 node_paths=PackedStringArray("storyTextContainer", "optionButtonContainer", "mainPanel")]
+script = ExtResource("2_o6xl0")
 story = ExtResource("2_0wfyh")
+storyTextContainer = NodePath("Panel/MarginContainer/ScrollContainer/InkWriterVBox")
+optionButtonContainer = NodePath("Control/OptionButtonContainer")
+clearOptionsOnSelect = true
+mainPanel = NodePath("Panel")
 startKnot = "init"
+continueMaximally = false
+continueInput = "ink_continue"
 
-[node name="InkBackgroundUI" parent="." unique_id=1411227171 instance=ExtResource("3_jyhfs")]
-offset_right = 1154.0
-offset_bottom = 650.0
-texture = ExtResource("4_tbgi4")
-stretch_mode = 4
+[node name="Panel" type="Panel" parent="InkEngine" unique_id=2146954083]
+anchors_preset = -1
+anchor_left = 0.70000005
+anchor_top = 0.009000001
+anchor_right = 0.994
+anchor_bottom = 0.97900003
+offset_left = -175.40002
+offset_top = 58.168
+offset_right = -54.088013
+offset_bottom = -28.392029
+theme = ExtResource("4_tipki")
+
+[node name="MarginContainer" type="MarginContainer" parent="InkEngine/Panel" unique_id=407430642]
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.024
+anchor_bottom = 1.0
+offset_right = -0.19158936
+offset_bottom = -120.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_right = 25
+
+[node name="ScrollContainer" type="ScrollContainer" parent="InkEngine/Panel/MarginContainer" unique_id=1165308149]
+layout_mode = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+script = ExtResource("5_85g3d")
+
+[node name="InkWriterVBox" type="VBoxContainer" parent="InkEngine/Panel/MarginContainer/ScrollContainer" unique_id=1057545831]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InkEngine/Panel" unique_id=1811033083]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.071
+anchor_bottom = 1.0
+offset_left = -295.35205
+offset_top = -9.0
+offset_right = -35.442055
+offset_bottom = -3.0
+mouse_filter = 2
+alignment = 1
+
+[node name="PortraitContainer" type="BoxContainer" parent="InkEngine/Panel/VBoxContainer" unique_id=1329970533]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="InkPortrait" parent="InkEngine/Panel/VBoxContainer/PortraitContainer" unique_id=2129696352 instance=ExtResource("6_choun")]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+
+[node name="InkBackgroundContainer" type="PanelContainer" parent="InkEngine" unique_id=1272348965]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="InkBackground" parent="InkEngine/InkBackgroundContainer" unique_id=1948816966 instance=ExtResource("3_jyhfs")]
+z_index = -1
+material = SubResource("ShaderMaterial_rtbp5")
+layout_mode = 2
+expand_mode = 3
+
+[node name="Control" type="Control" parent="InkEngine" unique_id=1260076147]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="OptionButtonContainer" type="GridContainer" parent="InkEngine/Control" unique_id=1494293156]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 66.0
+offset_top = -165.0
+offset_right = 502.0
+offset_bottom = -54.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="InkUI" parent="." unique_id=1355346341 node_paths=PackedStringArray("customLabels") instance=ExtResource("8_85g3d")]
+customLabels = {
+"SystemText": NodePath("Control/SystemText")
+}
+
+[node name="Control" type="Control" parent="InkUI" unique_id=1418245439]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("4_tipki")
+
+[node name="SystemText" parent="InkUI/Control" unique_id=648605235 instance=ExtResource("9_choun")]
+layout_mode = 0
+offset_left = 58.0
+offset_top = 46.0
+offset_right = 536.0
+offset_bottom = 480.0
+fadeInText = false

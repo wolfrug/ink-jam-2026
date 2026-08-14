@@ -17,6 +17,11 @@ public partial class Inkwriter : CanvasLayer
 	private VBoxContainer storyTextContainer;
 
 	[Export]
+	private Control optionButtonContainer;
+	[Export]
+	private bool clearOptionsOnSelect = false;
+
+	[Export]
 	private Control mainPanel;
 
 	[Export]
@@ -242,7 +247,16 @@ public partial class Inkwriter : CanvasLayer
 			GlobalEvents.SendOnChoiceSelected(new InkEventArgs { inktext = choice.Text, inkTags = choice.Tags as List<string>, inkchoice = choice, inkChoiceButton = button });
 		};
 		currentChoices.Add(button);
-		storyTextContainer.AddChild(button);
+		if (optionButtonContainer != null)
+		{
+			button.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
+			button.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
+			optionButtonContainer.AddChild(button);
+		}
+		else
+		{
+			storyTextContainer.AddChild(button);
+		}
 		return button;
 	}
 
@@ -290,7 +304,14 @@ public partial class Inkwriter : CanvasLayer
 			}
 			if (button != null)
 			{
-				button.Disabled = true;
+				if (clearOptionsOnSelect)
+				{
+					button.QueueFree();
+				}
+				else
+				{
+					button.Disabled = true;
+				}
 			}
 		}
 		currentChoices.Clear();
