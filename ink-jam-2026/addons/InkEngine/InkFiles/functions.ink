@@ -4,7 +4,7 @@ LIST portraits = Player
 
 LIST backgrounds = Bck_None
 
-LIST items = ItemNone
+LIST items = ItemNone, Test
 
 LIST themes = Theme_Label_Default, Theme_Label_Dialogue, Theme_Label_Narrator
 

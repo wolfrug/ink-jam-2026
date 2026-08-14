@@ -194,8 +194,8 @@ public partial class InkInventory : CanvasLayer
 		_tween = mainPanel.CreateTween();
 		_tween.SetTrans(Tween.TransitionType.Sine);
 		_tween.SetEase(Tween.EaseType.InOut);
-		var mat = mainPanel.Material as ShaderMaterial;
-		float current = mat.GetShaderParameter("progress").AsSingle();
+		
+		float current = mainPanel.Modulate.A;
 		float goal = fadeIn ? 1f : 0f;
 		if (fadeIn)
 		{
@@ -213,12 +213,7 @@ public partial class InkInventory : CanvasLayer
 		{
 			ShowChildren(false);
 		}
-		_tween.TweenMethod(
-			Callable.From<float>(v => mat.SetShaderParameter("progress", v)),
-			current,
-			goal,
-			1.5f
-		);
+		_tween.TweenProperty(mainPanel, "modulate:a", goal, 0.25f);
 		if (!fadeIn)
 		{
 			_tween.TweenCallback(Callable.From(() => SetActive(fadeIn)));

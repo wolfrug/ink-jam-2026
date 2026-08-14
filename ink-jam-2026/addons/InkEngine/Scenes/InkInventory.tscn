@@ -2,34 +2,11 @@
 
 [ext_resource type="Script" uid="uid://ipqq1pt3tfw" path="res://addons/InkEngine/Scripts/InkInventory.cs" id="1_g3lyx"]
 [ext_resource type="PackedScene" uid="uid://cyilpdfthsfq2" path="res://addons/InkEngine/Scenes/InkInventoryButton.tscn" id="2_l3c1c"]
-[ext_resource type="Texture2D" uid="uid://bojixcy5rlqus" path="res://addons/InkEngine/Graphics/UI/new ui_slot_square.png" id="2_mhsve"]
-[ext_resource type="Shader" uid="uid://b6pmwksk5c0q1" path="res://Graphics/Shaders/FadeInClayShader.tres" id="2_x415i"]
 [ext_resource type="PackedScene" uid="uid://cvrpspo2y5rii" path="res://addons/InkEngine/Scenes/InkButton.tscn" id="5_k33w0"]
-[ext_resource type="Texture2D" uid="uid://l22l15wuso5j" path="res://addons/InkEngine/Graphics/Icons/ui_menu.png" id="6_6ycu3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t86v2"]
-shader = ExtResource("2_x415i")
-shader_parameter/rect_size = Vector2(128, 128)
-shader_parameter/progress = 1.0
-shader_parameter/flip_direction = false
-shader_parameter/noise_scale = 5.78400022724
-shader_parameter/vertical_bias = 0.0
-shader_parameter/edge_softness = 0.00800000003074
-shader_parameter/harden_duration = 0.60000002384186
-shader_parameter/rise_amount = 0.08
-shader_parameter/clay_color = Color(0.40307948, 0.5556553, 0.9926588, 1)
-shader_parameter/clay_strength = 0.85
-shader_parameter/glow_color = Color(0.057279862, 0.54734695, 0.5776379, 1)
-shader_parameter/glow_strength = 1.1410000541975
-shader_parameter/glow_line_alpha = 0.41600001976
-shader_parameter/fuzz_amount = 0.47200002242
-shader_parameter/fuzz_speed = 0.21600001026
-shader_parameter/glitch_amount = 0.02800000133
-shader_parameter/glitch_slices = 37.2970015816075
-shader_parameter/chroma_split = 0.01200000057
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xrivr"]
-texture = ExtResource("2_mhsve")
 texture_margin_left = 10.0
 texture_margin_top = 10.0
 texture_margin_right = 10.0
@@ -67,7 +44,6 @@ alignment = 2
 [node name="ExitButton" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1428391306 instance=ExtResource("5_k33w0")]
 layout_mode = 2
 text = ""
-icon = ExtResource("6_6ycu3")
 flat = true
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer" unique_id=1411578441]
@@ -79,12 +55,16 @@ columns = 4
 
 [node name="InkInventoryButton" parent="PanelContainer/ScrollContainer/GridContainer" unique_id=1181602401 instance=ExtResource("2_l3c1c")]
 layout_mode = 2
+icon = null
 
 [node name="InkInventoryButton6" parent="PanelContainer/ScrollContainer/GridContainer" unique_id=1696865237 instance=ExtResource("2_l3c1c")]
 layout_mode = 2
+icon = null
 
 [node name="InkInventoryButton7" parent="PanelContainer/ScrollContainer/GridContainer" unique_id=592480339 instance=ExtResource("2_l3c1c")]
 layout_mode = 2
+icon = null
 
 [node name="InkInventoryButton8" parent="PanelContainer/ScrollContainer/GridContainer" unique_id=1397042186 instance=ExtResource("2_l3c1c")]
 layout_mode = 2
+icon = null
