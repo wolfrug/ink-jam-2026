@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://cetuxojo4pi3o"]
+
+[ext_resource type="Script" uid="uid://coh24nstjnosq" path="res://addons/InkEngine/Scripts/InkLabel.cs" id="1_52ylb"]
+[ext_resource type="StyleBox" uid="uid://cr5tw1cxkmbr6" path="res://addons/InkEngine/UI/default_invisible_label_box.tres" id="2_yt5di"]
+
+[node name="InkLabel" type="BoxContainer" unique_id=648605235 node_paths=PackedStringArray("textLabel", "container")]
+offset_right = 125.0
+offset_bottom = 46.0
+size_flags_horizontal = 3
+vertical = true
+script = ExtResource("1_52ylb")
+textLabel = NodePath("Panel/MarginContainer/RichTextLabel")
+container = NodePath("Panel")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1889959205]
+z_as_relative = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("2_yt5di")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=837264908]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/MarginContainer" unique_id=691433562]
+layout_mode = 2
+bbcode_enabled = true
+text = "Hello"
+fit_content = true

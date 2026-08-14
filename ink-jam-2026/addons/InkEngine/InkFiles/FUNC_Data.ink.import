@@ -1,0 +1,16 @@
+[remap]
+
+importer="ink"
+type="Resource"
+uid="uid://igfmf42dqryp"
+path="res://.godot/imported/FUNC_Data.ink-6fa82dbda5c53b6c182118e05c59d505.res"
+
+[deps]
+
+source_file="res://addons/InkEngine/InkFiles/FUNC_Data.ink"
+dest_files=["res://.godot/imported/FUNC_Data.ink-6fa82dbda5c53b6c182118e05c59d505.res"]
+
+[params]
+
+is_main_file=false
+compress=true

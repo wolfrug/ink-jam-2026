@@ -1,0 +1,24 @@
+[gd_resource type="Theme" format=3 uid="uid://dp7p64i6xy7hr"]
+
+[ext_resource type="StyleBox" uid="uid://cr5tw1cxkmbr6" path="res://addons/InkEngine/UI/default_invisible_label_box.tres" id="1_v73if"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yxmgb"]
+bg_color = Color(0.023567734, 0.19870889, 0.18152663, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.96862745)
+shadow_size = 4
+shadow_offset = Vector2(5.48, 4.295)
+
+[resource]
+Label/colors/font_shadow_color = Color(0, 0, 0, 0.8392157)
+Label/font_sizes/font_size = 20
+MarginContainer/constants/margin_bottom = 30
+MarginContainer/constants/margin_left = 10
+MarginContainer/constants/margin_right = 10
+MarginContainer/constants/margin_top = 10
+Panel/styles/panel = SubResource("StyleBoxFlat_yxmgb")
+PanelContainer/styles/panel = ExtResource("1_v73if")
+RichTextLabel/font_sizes/normal_font_size = 22

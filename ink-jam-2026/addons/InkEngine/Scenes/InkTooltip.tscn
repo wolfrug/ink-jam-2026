@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://xxsanplx25c7"]
+
+[ext_resource type="Texture2D" uid="uid://bojixcy5rlqus" path="res://addons/InkEngine/Graphics/UI/new ui_slot_square.png" id="1_85uln"]
+[ext_resource type="Script" uid="uid://5e4ve3v32w31" path="res://addons/InkEngine/Scripts/InkTooltip.cs" id="2_4w2dx"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_13qdw"]
+texture = ExtResource("1_85uln")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
+[node name="InkTooltip" type="PanelContainer" unique_id=1577950018 node_paths=PackedStringArray("textLabel")]
+custom_minimum_size = Vector2(150, 50)
+offset_right = 150.0
+offset_bottom = 50.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_13qdw")
+script = ExtResource("2_4w2dx")
+textLabel = NodePath("Text")
+
+[node name="Text" type="RichTextLabel" parent="." unique_id=1135219727]
+custom_minimum_size = Vector2(150, 50)
+propagate_maximum_size = true
+clip_contents = false
+layout_mode = 2
+bbcode_enabled = true
+text = "This is a tool tip with various things in it. Quite normal really."
+fit_content = true
