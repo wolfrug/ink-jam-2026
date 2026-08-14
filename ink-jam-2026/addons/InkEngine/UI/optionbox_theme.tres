@@ -1,5 +1,7 @@
 [gd_resource type="Theme" format=3 uid="uid://bwcic61yqp7ch"]
 
+[ext_resource type="FontFile" uid="uid://cn0jy6vqknn6v" path="res://fonts/TextMeOne-Regular.ttf" id="1_aew1u"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0qe2q"]
 bg_color = Color(0.004798248, 0.10789617, 0.15897045, 1)
 border_width_left = 2
@@ -24,11 +26,18 @@ shadow_offset = Vector2(5.48, 4.295)
 [resource]
 Button/constants/icon_max_width = 35
 Button/font_sizes/font_size = 22
+Button/fonts/font = ExtResource("1_aew1u")
 Button/styles/hover = SubResource("StyleBoxFlat_0qe2q")
 Button/styles/normal = null
 Label/colors/font_shadow_color = Color(0, 0, 0, 0.8392157)
+Label/fonts/font = ExtResource("1_aew1u")
 MarginContainer/constants/margin_bottom = 10
 MarginContainer/constants/margin_left = 10
 MarginContainer/constants/margin_right = 10
 MarginContainer/constants/margin_top = 10
 Panel/styles/panel = SubResource("StyleBoxFlat_yxmgb")
+RichTextLabel/fonts/bold_font = ExtResource("1_aew1u")
+RichTextLabel/fonts/bold_italics_font = ExtResource("1_aew1u")
+RichTextLabel/fonts/italics_font = ExtResource("1_aew1u")
+RichTextLabel/fonts/mono_font = ExtResource("1_aew1u")
+RichTextLabel/fonts/normal_font = ExtResource("1_aew1u")

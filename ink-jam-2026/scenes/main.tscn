@@ -2,9 +2,13 @@
 
 [ext_resource type="PackedScene" uid="uid://pvn88xjsfue3" path="res://addons/InkEngine/Scenes/InkWriter.tscn" id="1_o5qli"]
 [ext_resource type="Resource" uid="uid://buwx2ihop2dqx" path="res://addons/InkEngine/InkFiles/main.ink" id="2_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://1we70hiin1om" path="res://addons/InkEngine/Scenes/InkBackgroundUI.tscn" id="3_jyhfs"]
+[ext_resource type="Texture2D" uid="uid://kej0pkeq3edh" path="res://graphics/UI/MainPanel01.png" id="4_tbgi4"]
 
-[node name="Control" type="Control" unique_id=2114281120]
-layout_mode = 3
+[node name="Control" type="CanvasLayer" unique_id=1811685178]
+
+[node name="Background" type="Panel" parent="." unique_id=565919669]
+self_modulate = Color(0, 0, 0, 1)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -14,3 +18,9 @@ grow_vertical = 2
 [node name="InkEngine" parent="." unique_id=412805178 instance=ExtResource("1_o5qli")]
 story = ExtResource("2_0wfyh")
 startKnot = "init"
+
+[node name="InkBackgroundUI" parent="." unique_id=1411227171 instance=ExtResource("3_jyhfs")]
+offset_right = 1154.0
+offset_bottom = 650.0
+texture = ExtResource("4_tbgi4")
+stretch_mode = 4

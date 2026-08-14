@@ -11,13 +11,6 @@
 script = ExtResource("2_yr2o3")
 metadata/_custom_type_script = "uid://4585437b8bv1"
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yr2o3"]
-bg_color = Color(0.8108136, 0.8247759, 0.73372257, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rtbp5"]
 
 [node name="InkEngine" type="CanvasLayer" unique_id=412805178 node_paths=PackedStringArray("storyTextContainer", "mainPanel")]
@@ -39,7 +32,6 @@ offset_top = 0.27999973
 offset_right = 0.52001953
 offset_bottom = -0.32006836
 theme = ExtResource("1_umhqq")
-theme_override_styles/panel = SubResource("StyleBoxFlat_yr2o3")
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=407430642]
 clip_contents = true
