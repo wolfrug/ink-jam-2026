@@ -15,3 +15,7 @@ export_credentials.cfg
 .mono/
 data_*/
 mono_crash.*.json
+
+/ink-jam-2026/Ink-Jam-2026.2dog
+/ink-jam-2026/Ink-Jam-2026.web
+/ink-jam-2026/Ink-Jam-2026.tests

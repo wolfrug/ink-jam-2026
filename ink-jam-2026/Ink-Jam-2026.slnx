@@ -1,0 +1,17 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="ExportDebug" />
+    <BuildType Name="ExportRelease" />
+  </Configurations>
+  <Project Path="Ink-Jam-2026.2dog/Ink-Jam-2026.2dog.csproj">
+    <BuildType Project="Debug" />
+  </Project>
+  <Project Path="Ink-Jam-2026.csproj" />
+  <Project Path="Ink-Jam-2026.tests/Ink-Jam-2026.tests.csproj">
+    <BuildType Project="Debug" />
+  </Project>
+  <Project Path="Ink-Jam-2026.web/Ink-Jam-2026.web.csproj">
+    <BuildType Project="Debug" />
+  </Project>
+</Solution>
