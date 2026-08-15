@@ -6,8 +6,16 @@
 ~return target
 }
 {target:
-- ItemNone:
+- None:
 ~return "Cancel"
+- Jeanne:
+~return "[color=red][hint=\"Jeanne Marten - Worker \# 91\"]Jeanne Marten[/hint][/color]"
+- Amar:
+~return "[color=green][hint=\"Amar Khalasi - Worker \#567\"]Amar Khalasi[/hint][/color]"
+- Marcus:
+~return "[color=yellow][hint=\"Marcus Paattinen - Worker \#12 \"]Marcus Paattinen[/hint][/color]"
+- Player:
+~return "[color=grey][hint=\"Worker \#278\"]Current User[/hint][/color]"
 - else:
 ~return target
 }
@@ -16,7 +24,7 @@
 ~return target
 }
 {target:
-- ItemNone:
+- None:
 ~return "Cancel interaction."
 - else:
 ~return "No description."
@@ -26,7 +34,7 @@
 ~return target
 }
 {target:
--ItemNone:
+-None:
 - else:
 ~return target
 }

@@ -86,7 +86,7 @@ public partial class InkLabel : Control
 		}
 		if (writeInText)
 		{
-			float fadeInTime = textLabel.Text.Length / (fadeInSpeed*100f);
+			float fadeInTime = textLabel.Text.Length / (fadeInSpeed * 100f);
 			textLabel.VisibleRatio = 0f;
 			Tween tween2 = textLabel.CreateTween();
 			tween2.TweenProperty(textLabel, "visible_ratio", 1f, fadeInTime).SetTrans(Tween.TransitionType.Sine);
@@ -122,6 +122,14 @@ public partial class InkLabel : Control
 	{
 		//GD.Print("We are setting ink writer to active: " + active);
 		Visible = active;
+	}
+
+	public override GodotObject _MakeCustomTooltip(string text)
+	{
+		var scene = GD.Load<PackedScene>(GlobalVariables.c_inkTooltipScene);
+		InkTooltip tooltip = scene.Instantiate<InkTooltip>();
+		tooltip.textLabel.Text = text.Trim();
+		return tooltip;
 	}
 
 	Tween _tween;

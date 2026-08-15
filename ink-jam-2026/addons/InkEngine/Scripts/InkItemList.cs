@@ -11,6 +11,7 @@ public partial class InkItemList : ItemList
 	public Dictionary<string, int> InventoryDictionary = new Dictionary<string, int> { };
 
 	private const string c_curItemVar = "curItem";
+	private string currentSelectedItem = "";
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -26,7 +27,11 @@ public partial class InkItemList : ItemList
 
 		InventoryDictionary.Clear();
 		Clear();
-
+		bool hasSelectedItem = false;
+		if (dict.Count == 0)
+		{
+			SetSelectedItem(-1);
+		}
 		foreach (KeyValuePair<string, string> kvp in dict)
 		{
 			if (InventoryDictionary.TryGetValue(kvp.Key, out int index))
@@ -35,9 +40,19 @@ public partial class InkItemList : ItemList
 			}
 			else
 			{
-				NewInventoryItem(kvp.Key, kvp.Key + " (" + kvp.Value + ")");
+				NewInventoryItem(kvp.Key, kvp.Key + (kvp.Value!="-1" ? " (" + kvp.Value + ")" : ""));
+			}
+			if (kvp.Key == currentSelectedItem)
+			{
+				Select(InventoryDictionary[kvp.Key]);
+				hasSelectedItem = true;
 			}
 		}
+		if (!hasSelectedItem)
+		{
+			SetSelectedItem(-1);
+		}
+
 	}
 
 	public virtual void NewInventoryItem(string id, string itemName, Texture2D icon = null, bool selectable = true)
@@ -53,7 +68,7 @@ public partial class InkItemList : ItemList
 	}
 	public virtual void SetSelectedItem(int index)
 	{
-		string id = "";
+		string id = "None";
 		if (InventoryDictionary.ContainsValue(index))
 		{
 			foreach (string keyVar in InventoryDictionary.Keys)
@@ -64,8 +79,13 @@ public partial class InkItemList : ItemList
 				}
 			}
 		}
-		Inkwriter.instance.Story.StoreVariable(c_curItemVar, id);
+		
+		Ink.Runtime.InkList list = new Ink.Runtime.InkList("items", Inkwriter.instance.Story.runtimeStory);
+		//list.SetInitialOriginName("items");
+		list.AddItem(id);
 
+		Inkwriter.instance.Story.runtimeStory.variablesState[c_curItemVar] = list;
+		currentSelectedItem = id;
 		GD.Print("Selected item is: " + id);
 	}
 }

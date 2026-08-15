@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Godot.NativeInterop;
+using System.Globalization;
 
 public partial class Inkwriter : CanvasLayer
 {
@@ -189,7 +190,7 @@ public partial class Inkwriter : CanvasLayer
 		{
 			if (tag.Contains("wait"))
 			{
-				float waitTime = float.Parse(tag.Replace("wait.", ""));
+				float waitTime = float.Parse(tag.Replace("wait.", ""), System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture);
 				waitTime *= 1000; // convert to milliseconds
 				await Task.Delay((int)waitTime);
 			}

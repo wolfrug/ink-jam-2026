@@ -4,11 +4,17 @@ LIST portraits = Player
 
 LIST backgrounds = Bck_None
 
-LIST items = ItemNone, Test
+LIST characters = Jeanne, Amar, Marcus
+
+LIST items = None, Test
 
 LIST themes = Theme_Label_Default, Theme_Label_Dialogue, Theme_Label_Narrator
 
 VAR global_temporary_variable = ()
+
+VAR inventory_stack_dictionary = "<None^-1>"
+
+VAR curItem = ()
 
 EXTERNAL EXT_AddToList(x,y)
 EXTERNAL EXT_RemoveFromList(x,y)
@@ -97,6 +103,10 @@ EXTERNAL EXT_Count(x)
 #PLAY_MUSIC:{music}
 
 
+// Dialogues
+===function Say(character)
+ [right]{GetDisplayName(character)}[/right][hr][br][left]<>
+
 // INVENTORY!
 ===function AddToInventory(item, amount, ref inventory)===
 {not (inventory?item):
@@ -178,7 +188,7 @@ LIST Type = List, String, Number
 <-loop(continuePoint, copyList)
 
 + [Cancel #SET_INVENTORY:INVENTORY_CANCEL]
-~selectedItem = ItemNone
+~selectedItem = None
 ->continuePoint(selectedItem)
 
 =loop(->continuePoint, copyList)
@@ -203,7 +213,7 @@ LIST Type = List, String, Number
 <-loop(selectedItem, copyList)
 
 + [Cancel #SET_INVENTORY:INVENTORY_CANCEL]
-~selectedItem = ItemNone
+~selectedItem = None
 ->->
 
 =loop(ref selectedItem, copyList)
