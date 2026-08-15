@@ -1,28 +1,37 @@
 [gd_scene format=3 uid="uid://xxsanplx25c7"]
 
-[ext_resource type="Texture2D" uid="uid://bojixcy5rlqus" path="res://addons/InkEngine/Graphics/UI/new ui_slot_square.png" id="1_85uln"]
+[ext_resource type="Theme" uid="uid://dp7p64i6xy7hr" path="res://addons/InkEngine/UI/dialogbox_theme.tres" id="1_4uis8"]
 [ext_resource type="Script" uid="uid://5e4ve3v32w31" path="res://addons/InkEngine/Scripts/InkTooltip.cs" id="2_4w2dx"]
+[ext_resource type="Texture2D" uid="uid://ler5ewxlobfd" path="res://graphics/UI/MainPanel03.png" id="3_4uis8"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_13qdw"]
-texture = ExtResource("1_85uln")
-texture_margin_left = 10.0
-texture_margin_top = 10.0
-texture_margin_right = 10.0
-texture_margin_bottom = 10.0
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_31j1w"]
+texture = ExtResource("3_4uis8")
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
 
-[node name="InkTooltip" type="PanelContainer" unique_id=1577950018 node_paths=PackedStringArray("textLabel")]
-custom_minimum_size = Vector2(150, 50)
-offset_right = 150.0
+[node name="InkTooltip" type="Control" unique_id=154719866 node_paths=PackedStringArray("textLabel")]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 200.0
 offset_bottom = 50.0
-theme_override_styles/panel = SubResource("StyleBoxTexture_13qdw")
+theme = ExtResource("1_4uis8")
 script = ExtResource("2_4w2dx")
-textLabel = NodePath("Text")
+textLabel = NodePath("PanelContainer/Text")
 
-[node name="Text" type="RichTextLabel" parent="." unique_id=1135219727]
-custom_minimum_size = Vector2(150, 50)
-propagate_maximum_size = true
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1379253753]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 0
+offset_right = 232.0
+offset_bottom = 67.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_31j1w")
+
+[node name="Text" type="RichTextLabel" parent="PanelContainer" unique_id=1135219727]
+custom_minimum_size = Vector2(200, 0)
 clip_contents = false
 layout_mode = 2
 bbcode_enabled = true
-text = "This is a tool tip with various things in it. Quite normal really."
+text = "Tooltip"
 fit_content = true

@@ -7,7 +7,7 @@
 }
 {target:
 - None:
-~return "Cancel"
+~return "No Selection"
 - Jeanne:
 ~return "[color=red][hint=\"Jeanne Marten - Worker \# 91\"]Jeanne Marten[/hint][/color]"
 - Amar:
@@ -16,6 +16,27 @@
 ~return "[color=yellow][hint=\"Marcus Paattinen - Worker \#12 \"]Marcus Paattinen[/hint][/color]"
 - Player:
 ~return "[color=grey][hint=\"Worker \#278\"]Current User[/hint][/color]"
+
+- Multimeter:
+~return "Multimeter"
+- Metasocket:
+~return "Metasocket"
+- VoltometricPump:
+~return "Voltometric Pump"
+- SonicScrewdriver:
+~return "Sonic Screwdriver"
+- Ansible:
+~return "Ansible"
+- Neurojack:
+~return "Neurojack"
+- CombatBiosoft:
+~return "Combat Biosoft"
+- UtilityBiosoft:
+~return "Utility Biosoft"
+- Ubik:
+~return "Ubik"
+- HeatSink:
+~return "Heat Sink"
 - else:
 ~return target
 }
@@ -25,7 +46,27 @@
 }
 {target:
 - None:
-~return "Cancel interaction."
+~return "No item selected."
+- Multimeter:
+~return "Multimeter This is a multi-line tooltip."
+- Metasocket:
+~return "Metasocket"
+- VoltometricPump:
+~return "Voltometric Pump"
+- SonicScrewdriver:
+~return "Sonic Screwdriver"
+- Ansible:
+~return "Ansible"
+- Neurojack:
+~return "Neurojack"
+- CombatBiosoft:
+~return "Combat Biosoft"
+- UtilityBiosoft:
+~return "Utility Biosoft"
+- Ubik:
+~return "Ubik"
+- HeatSink:
+~return "Heat Sink"
 - else:
 ~return "No description."
 }

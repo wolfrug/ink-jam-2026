@@ -46,7 +46,7 @@ public partial class Inkwriter : CanvasLayer
 
 	private List<Button> currentChoices = new List<Button> { };
 
-	protected string saveFilePath = "user://clay_savegame.save";
+	protected string saveFilePath = "user://inkjam2026_savegame.save";
 
 	protected const string c_customButtonSceneTag = "SET_CUSTOM_BUTTON:";
 

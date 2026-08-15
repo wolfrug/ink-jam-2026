@@ -6,13 +6,13 @@ LIST backgrounds = Bck_None
 
 LIST characters = Jeanne, Amar, Marcus
 
-LIST items = None, Test
+LIST items = None, Multimeter, Metasocket, VoltometricPump, SonicScrewdriver, Ansible, Neurojack, CombatBiosoft, UtilityBiosoft, Ubik, HeatSink
 
 LIST themes = Theme_Label_Default, Theme_Label_Dialogue, Theme_Label_Narrator
 
 VAR global_temporary_variable = ()
 
-VAR inventory_stack_dictionary = "<None^-1>"
+VAR inventory_stack_dictionary = ""
 
 VAR curItem = ()
 

@@ -11,6 +11,9 @@ public partial class InkItemList : ItemList
 	public Dictionary<string, int> InventoryDictionary = new Dictionary<string, int> { };
 
 	private const string c_curItemVar = "curItem";
+	private const string c_itemsInventory = "items";
+	private const string c_getdisplaynamefunction = "GetDisplayName";
+	private const string c_getdescriptionFunction = "GetDescription";
 	private string currentSelectedItem = "";
 
 	// Called when the node enters the scene tree for the first time.
@@ -36,11 +39,11 @@ public partial class InkItemList : ItemList
 		{
 			if (InventoryDictionary.TryGetValue(kvp.Key, out int index))
 			{
-				EditInventoryItem(index, kvp.Key + " (" + kvp.Value + ")");
+				EditInventoryItem(index, GetDisplayName(kvp.Key) + " (" + kvp.Value + ")");
 			}
 			else
 			{
-				NewInventoryItem(kvp.Key, kvp.Key + (kvp.Value!="-1" ? " (" + kvp.Value + ")" : ""));
+				NewInventoryItem(kvp.Key, GetDisplayName(kvp.Key) + (kvp.Value != "-1" ? " (" + kvp.Value + ")" : ""));
 			}
 			if (kvp.Key == currentSelectedItem)
 			{
@@ -48,6 +51,7 @@ public partial class InkItemList : ItemList
 				hasSelectedItem = true;
 			}
 		}
+		NewInventoryItem("None", GetDisplayName("None"));
 		if (!hasSelectedItem)
 		{
 			SetSelectedItem(-1);
@@ -55,10 +59,44 @@ public partial class InkItemList : ItemList
 
 	}
 
+	public virtual string GetDisplayName(string id)
+	{
+		string textOutput;
+		Ink.Runtime.InkList list = new Ink.Runtime.InkList(c_itemsInventory, Inkwriter.instance.Story.runtimeStory);
+		//list.SetInitialOriginName("items");
+		list.AddItem(id);
+		var returnValue = Inkwriter.instance.Story.runtimeStory.EvaluateFunction(c_getdisplaynamefunction, out textOutput, new object[] { list });
+		return (string)returnValue;
+	}
+	public virtual string GetDescription(string id)
+	{
+		string textOutput;
+		Ink.Runtime.InkList list = new Ink.Runtime.InkList(c_itemsInventory, Inkwriter.instance.Story.runtimeStory);
+		//list.SetInitialOriginName("items");
+		list.AddItem(id);
+		var returnValue = Inkwriter.instance.Story.runtimeStory.EvaluateFunction(c_getdescriptionFunction, out textOutput, new object[] { list });
+		GD.Print("InkItemList: received GetDescription of item with id " + id + ": " + (string)returnValue);
+		return (string)returnValue;
+	}
+
+	public override GodotObject _MakeCustomTooltip(string text)
+	{
+		var scene = GD.Load<PackedScene>(GlobalVariables.c_inkTooltipScene);
+		InkTooltip tooltip = scene.Instantiate<InkTooltip>();
+		tooltip.SetTooltipText(text);
+		//tooltip.textLabel.Text = ""; // null previous text
+		//tooltip.textLabel.AppendText(text);
+		return tooltip;
+	}
+
 	public virtual void NewInventoryItem(string id, string itemName, Texture2D icon = null, bool selectable = true)
 	{
-		int index = AddItem(itemName, icon, selectable);
-		InventoryDictionary.Add(id, index);
+		if (!InventoryDictionary.ContainsKey(id))
+		{
+			int index = AddItem(itemName, icon, selectable);
+			SetItemTooltip(index, GetDescription(id));
+			InventoryDictionary.Add(id, index);
+		}
 	}
 	public virtual void EditInventoryItem(int index, string itemName, Texture2D icon = null, bool selectable = true)
 	{
@@ -79,8 +117,8 @@ public partial class InkItemList : ItemList
 				}
 			}
 		}
-		
-		Ink.Runtime.InkList list = new Ink.Runtime.InkList("items", Inkwriter.instance.Story.runtimeStory);
+
+		Ink.Runtime.InkList list = new Ink.Runtime.InkList(c_itemsInventory, Inkwriter.instance.Story.runtimeStory);
 		//list.SetInitialOriginName("items");
 		list.AddItem(id);
 

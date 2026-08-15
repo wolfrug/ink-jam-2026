@@ -22,24 +22,24 @@ Okay we got a sort of inventory that's nice right.
 
 VAR debug = false
 
-VAR testarray = ()
-
-
-
-VAR testItem = ()
-
 ->init
-
-===function ST()
-{CustomUI("SystemText")}
 
 
 ==init
+->debugStart
 #hideWriter
 {SetActive("SystemBox", false)}
 ~curItem = None
 
 ->start
+
+==debugStart
+Test inventory!
+
++ [Add item]
+{AddToInventory(LIST_RANDOM(LIST_ALL(items)), 1, items)}
+->debugStart
+
 
 ==start
 
@@ -129,6 +129,56 @@ Thank you for asking, my friend! I am well.
 
 {Say(Jeanne)} Well it'll be a fun surprise for 'em when they read this.
 }
+
+* {silence1 && silence2} [I'm here. And it IS so fun.]
+{Say(Player)} I'm here. And it IS so fun.
+
+* [I'll handle it.]
+{Say(Player)} I'll handle it.
+
+* (tellme) [Tell me what happened.]
+{Say(Player)} Tell me what happened.
+-
+{silence1 && silence2:
+{Say(Jeanne)} Oh, thank Helix. I was getting worried.
+
+{Say(Amar)} Morning, Boss. I won't say 'good' morning though.
+}
+
+{not tellme: {Say(Player)} Tell me what happened, Marcus.}
+
+{Say(Marcus)} Not much to say. He was grunt from the Jaegers. Got tired of not having gravy and synthmeat every day I guess.
+
+So he starts ranting 'bout the Corp and how we're being treated worse than animals and yada yada. I am trying to have a drink, so I tell him to shut his hole.
+
+{Say(Jeanne)} Oh, Marcus...
+
+{Say(Marcus)} He is fine. Little black, little blue, in a few days.
+
+{Say(Amar)} If we don't get off this rock soon, it is only going to get worse...
+
+<Incoming Requisition Request>[br]<Priority: Red>[br]<Stand by...> #SystemText
+
+* [We have an incoming request.]
+{Say(Player)} We have an incoming request.
+* [You and me will have a talk later, Marcus.]
+{Say(Player)} You and me will have a talk later, Marcus.
+
+But we have to see to this new request now.
+
+- {Say(Amar)} Ah, I do so love work. Lay it on us, Boss.
+
+<Requisition Request For: SSP-907 (Mawker-Gleeson Thruster Heat Sink Mk. 3)>[br]<Requested By: Cmdr. Amada>[br]<Priority: Red> #SystemText
+
+{Say(Jeanne)} Ohh...this is good news, isn't it? That's the thing we need.
+
+{Say(Amar)} But...Boss...if this was something we had all along, why didn't they requisition this earlier?
+
+* [We DON'T have it. System, update inventory.]
+
+{Say(Player)}We DON'T have it. System, update inventory.
+
+
 
 
 ->DONE
