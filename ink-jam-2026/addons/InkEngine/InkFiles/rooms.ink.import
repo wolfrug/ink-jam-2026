@@ -1,0 +1,16 @@
+[remap]
+
+importer="ink"
+type="Resource"
+uid="uid://gdje7epymm32"
+path="res://.godot/imported/rooms.ink-0d8ee6d57d2d483a3e743dc1455dbd75.res"
+
+[deps]
+
+source_file="res://addons/InkEngine/InkFiles/rooms.ink"
+dest_files=["res://.godot/imported/rooms.ink-0d8ee6d57d2d483a3e743dc1455dbd75.res"]
+
+[params]
+
+is_main_file=false
+compress=true

@@ -1,5 +1,7 @@
 INCLUDE functions.ink
 INCLUDE FUNC_Data.ink
+INCLUDE rooms.ink
+
 
 /*
 Notes and brainstorms
@@ -26,19 +28,32 @@ VAR debug = false
 
 
 ==init
+
+~curItem = None
+~startingInventory = (Multimeter, Metasocket, SonicScrewdriver, VoltometricPump, Neurojack)
+~locations = (LocDock, LocControl, LocAdmin)
+->addStartingItem(startingInventory)->
 ->debugStart
+
 #hideWriter
 {SetActive("SystemBox", false)}
-~curItem = None
-
 ->start
 
-==debugStart
-Test inventory!
+=addStartingItem(ref itemsLeft)
+~temp randomItem = pop(itemsLeft)
+~temp randomAmount = RANDOM(1,3)
+{AddToDictionary(randomItem, randomAmount, inventory_stack_dictionary)}
+{LIST_COUNT(itemsLeft)>0:
+->addStartingItem(itemsLeft)
+- else:
+->->
+}
 
-+ [Add item]
-{AddToInventory(LIST_RANDOM(LIST_ALL(items)), 1, items)}
-->debugStart
+==debugStart
+This is the debug start. We need to add this here, or it doesn't work.
+
++ [Show map]
+->ShowMap
 
 
 ==start

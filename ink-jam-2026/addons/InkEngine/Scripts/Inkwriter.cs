@@ -304,7 +304,8 @@ public partial class Inkwriter : CanvasLayer
 					btn.QueueFree();
 				}
 			}
-			if (button != null)
+			// We only do this if the button is actually part of this writer
+			if (button != null && (button.GetParent()==storyTextContainer || button.GetParent()==optionButtonContainer))
 			{
 				if (clearOptionsOnSelect)
 				{
@@ -393,7 +394,6 @@ public partial class Inkwriter : CanvasLayer
 			if (active_ != value)
 			{
 				FadeIn(value);
-				active_ = value;
 				if (value)
 				{
 					GlobalEvents.SendOnShowWriter(new InkEventArgs { });
@@ -403,6 +403,7 @@ public partial class Inkwriter : CanvasLayer
 					GlobalEvents.SendOnHideWriter(new InkEventArgs { });
 				}
 			}
+			active_ = value;
 		}
 	}
 	void SetActive(bool active)

@@ -37,6 +37,26 @@
 ~return "Ubik"
 - HeatSink:
 ~return "Heat Sink"
+- LocControl:
+~return "Control"
+- LocDock:
+~return "Docks"
+- LocMess:
+~return "Mess Hall/Kitchen"
+- LocTool:
+~return "Tool Storage"
+- LocEngineering:
+~return "Engineering"
+- LocBarrack:
+~ return "Barracks"
+- LocArmory:
+~return "Armory"
+- LocHead:
+~return "Head"
+- LocAdmin:
+~return "Admin"
+- LocRecroom:
+~return "Rec Room"
 - else:
 ~return target
 }
@@ -48,25 +68,25 @@
 - None:
 ~return "No item selected."
 - Multimeter:
-~return "Multimeter This is a multi-line tooltip."
+~return "Multimeter[br]Detects short-circuits, power-surges and measures everything electric you might need."
 - Metasocket:
-~return "Metasocket"
+~return "Metasocket[br]An all-purpose, infinitely readjustable socket wrench. Indispensable to space mechanics everywhere."
 - VoltometricPump:
-~return "Voltometric Pump"
+~return "Voltometric Pump[br]Need a fluid (or air) moved? This is your tool."
 - SonicScrewdriver:
-~return "Sonic Screwdriver"
+~return "Sonic Screwdriver[br]Uses micro-vibrations to fit any screw head. Even ancient ones, like the Phill-Ips."
 - Ansible:
-~return "Ansible"
+~return "Ansible[br]For all your intergalactic communication needs. Don't leave home without it."
 - Neurojack:
-~return "Neurojack"
+~return "Neurojack[br]Some computers require your biocomputer, and this is the tool to jack into them."
 - CombatBiosoft:
-~return "Combat Biosoft"
+~return "Combat Biosoft[br]How did you find this? This is for jaegers!"
 - UtilityBiosoft:
-~return "Utility Biosoft"
+~return "Utility Biosoft[br]A databank of useful information and skills, neatly attached to your biocomputer."
 - Ubik:
-~return "Ubik"
+~return "Ubik[br]Comes in spray, pill or biosoft form. Warning: may cause mild disassocation from reality."
 - HeatSink:
-~return "Heat Sink"
+~return "Heat Sink[br]SSP-907 (Mawker-Gleeson Thruster Heat Sink Mk. 3).[br]THIS IS WHAT YOU NEED!"
 - else:
 ~return "No description."
 }

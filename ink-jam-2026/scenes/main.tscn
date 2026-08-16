@@ -10,6 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://cvs7dcu5noyax" path="res://addons/InkEngine/Scenes/InkUI.tscn" id="8_85g3d"]
 [ext_resource type="Script" uid="uid://coh24nstjnosq" path="res://addons/InkEngine/Scripts/InkLabel.cs" id="9_choun"]
 [ext_resource type="StyleBox" uid="uid://cr5tw1cxkmbr6" path="res://addons/InkEngine/UI/default_invisible_label_box.tres" id="10_ya4ey"]
+[ext_resource type="Script" uid="uid://ds16cp5upvi1d" path="res://scripts/MapGenerator.cs" id="11_a8y0u"]
+[ext_resource type="PackedScene" uid="uid://cvrpspo2y5rii" path="res://addons/InkEngine/Scenes/InkButton.tscn" id="11_trceg"]
 [ext_resource type="Script" uid="uid://bkaliqj4k1w72" path="res://scripts/SystemBox.cs" id="11_ya4ey"]
 [ext_resource type="Script" uid="uid://b46kxw1db7e36" path="res://addons/InkEngine/Scripts/InkItemList.cs" id="12_eb6dy"]
 
@@ -46,7 +48,7 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_fqjnf")
 script = ExtResource("2_o6xl0")
 story = ExtResource("2_0wfyh")
 storyTextContainer = NodePath("Panel/MarginContainer/ScrollContainer/InkWriterVBox")
-optionButtonContainer = NodePath("Control/OptionButtonContainer")
+optionButtonContainer = NodePath("Panel/Control/OptionButtonContainer")
 clearOptionsOnSelect = true
 mainPanel = NodePath("Panel")
 startKnot = "init"
@@ -110,6 +112,31 @@ mouse_filter = 2
 custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
 
+[node name="Control" type="Control" parent="InkEngine/Panel" unique_id=1260076147]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="OptionButtonContainer" type="GridContainer" parent="InkEngine/Panel/Control" unique_id=1494293156]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -153.70801
+offset_right = 6.1035156e-05
+offset_bottom = -35.708008
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2
+
 [node name="InkBackgroundContainer" type="PanelContainer" parent="InkEngine" unique_id=1272348965]
 self_modulate = Color(1, 1, 1, 0)
 anchors_preset = 15
@@ -126,33 +153,6 @@ z_index = -1
 material = SubResource("ShaderMaterial_rtbp5")
 layout_mode = 2
 expand_mode = 3
-
-[node name="Control" type="Control" parent="InkEngine" unique_id=1260076147]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="OptionButtonContainer" type="GridContainer" parent="InkEngine/Control" unique_id=1494293156]
-custom_minimum_size = Vector2(200, 50)
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 66.0
-offset_top = -165.0
-offset_right = 502.0
-offset_bottom = -54.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_constants/h_separation = 10
-theme_override_constants/v_separation = 10
-columns = 2
 
 [node name="InkUI" parent="." unique_id=1355346341 node_paths=PackedStringArray("customLabels", "customActivatorNodes") instance=ExtResource("8_85g3d")]
 customLabels = {
@@ -238,6 +238,112 @@ text = "GCCTL - 23/08/2056"
 fit_content = true
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="MapControl" type="Control" parent="InkUI" unique_id=1236960840 node_paths=PackedStringArray("inkUI", "parents")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_tipki")
+script = ExtResource("11_a8y0u")
+inkUI = NodePath("..")
+parents = [NodePath("GridContainer/Row1"), NodePath("GridContainer/Row2"), NodePath("GridContainer/Row3"), NodePath("GridContainer/Row4")]
+
+[node name="GridContainer" type="GridContainer" parent="InkUI/MapControl" unique_id=1803446507]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -482.0
+offset_top = -264.0
+offset_right = -60.0
+offset_bottom = 174.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/v_separation = 12
+
+[node name="RichTextLabel" type="RichTextLabel" parent="InkUI/MapControl/GridContainer" unique_id=1622301778]
+layout_mode = 2
+bbcode_enabled = true
+text = "Room map of the UNSS Helix Resplendant
+Select a room to go there."
+fit_content = true
+horizontal_alignment = 1
+
+[node name="Row1" type="HBoxContainer" parent="InkUI/MapControl/GridContainer" unique_id=1356613817]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="LocControl" parent="InkUI/MapControl/GridContainer/Row1" unique_id=1181602401 instance=ExtResource("11_trceg")]
+custom_minimum_size = Vector2(100, 75)
+layout_mode = 2
+text = "Flight Control"
+
+[node name="LocDock" parent="InkUI/MapControl/GridContainer/Row1" unique_id=2123401397 instance=ExtResource("11_trceg")]
+custom_minimum_size = Vector2(200, 75)
+layout_mode = 2
+text = "Dock"
+
+[node name="Row2" type="HBoxContainer" parent="InkUI/MapControl/GridContainer" unique_id=1097245071]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="LocMess" parent="InkUI/MapControl/GridContainer/Row2" unique_id=1662416161 instance=ExtResource("11_trceg")]
+custom_minimum_size = Vector2(124, 75)
+layout_mode = 2
+text = "Mess Hall/Kitchen"
+
+[node name="LocTool" parent="InkUI/MapControl/GridContainer/Row2" unique_id=985266861 instance=ExtResource("11_trceg")]
+custom_minimum_size = Vector2(100, 75)
+layout_mode = 2
+text = "Tool Storage"
+
+[node name="LocEngineering" parent="InkUI/MapControl/GridContainer/Row2" unique_id=211029129 instance=ExtResource("11_trceg")]
+custom_minimum_size = Vector2(125, 75)
+layout_mode = 2
+text = "Engineering"
+
+[node name="Row3" type="HBoxContainer" parent="InkUI/MapControl/GridContainer" unique_id=1584007484]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="LocBarrack" parent="InkUI/MapControl/GridContainer/Row3" unique_id=277019507 instance=ExtResource("11_trceg")]
+custom_minimum_size = Vector2(200, 75)
+layout_mode = 2
+text = "Barracks"
+
+[node name="LocArmory" parent="InkUI/MapControl/GridContainer/Row3" unique_id=885046974 instance=ExtResource("11_trceg")]
+custom_minimum_size = Vector2(90, 75)
+layout_mode = 2
+text = "Armory"
+
+[node name="LocHead" parent="InkUI/MapControl/GridContainer/Row3" unique_id=1699718338 instance=ExtResource("11_trceg")]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+text = "Head"
+
+[node name="Row4" type="HBoxContainer" parent="InkUI/MapControl/GridContainer" unique_id=1930107431]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="LocAdmin" parent="InkUI/MapControl/GridContainer/Row4" unique_id=308861828 instance=ExtResource("11_trceg")]
+custom_minimum_size = Vector2(90, 75)
+layout_mode = 2
+text = "Admin"
+
+[node name="LocRecroom" parent="InkUI/MapControl/GridContainer/Row4" unique_id=30022756 instance=ExtResource("11_trceg")]
+custom_minimum_size = Vector2(140, 75)
+layout_mode = 2
+text = "Rec Room"
 
 [node name="InventorySystemBox" type="VBoxContainer" parent="." unique_id=1431639782]
 anchors_preset = -1

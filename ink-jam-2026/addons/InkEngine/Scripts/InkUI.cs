@@ -181,6 +181,11 @@ public partial class InkUI : CanvasLayer
 		}
 		foreach (KeyValuePair<string, InkButton> kvp in customButtons)
 		{
+			if (WeakRef(kvp.Value) == null)
+			{
+				GD.PrintErr("Ink UI: Custom button with ID " + kvp.Key + " is null!");
+				continue;
+			}
 			kvp.Value.Disabled = true;
 		}
 		activatedButtons.Clear();

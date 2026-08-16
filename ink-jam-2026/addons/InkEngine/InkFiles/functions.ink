@@ -8,6 +8,8 @@ LIST characters = Jeanne, Amar, Marcus
 
 LIST items = None, Multimeter, Metasocket, VoltometricPump, SonicScrewdriver, Ansible, Neurojack, CombatBiosoft, UtilityBiosoft, Ubik, HeatSink
 
+LIST locations = LocControl, LocDock, LocMess, LocTool, LocEngineering, LocBarrack, LocArmory, LocHead, LocAdmin, LocRecroom
+
 LIST themes = Theme_Label_Default, Theme_Label_Dialogue, Theme_Label_Narrator
 
 VAR global_temporary_variable = ()
@@ -15,6 +17,8 @@ VAR global_temporary_variable = ()
 VAR inventory_stack_dictionary = ""
 
 VAR curItem = ()
+
+VAR startingInventory = ()
 
 EXTERNAL EXT_AddToList(x,y)
 EXTERNAL EXT_RemoveFromList(x,y)
@@ -180,9 +184,6 @@ LIST Type = List, String, Number
 
 ===ShowAnyItem(->continuePoint, targetInventory)
 //Use: ->ShowAnyItem(->continuePoint, targetinventory)
-//=continuePoint(itemChosen)
-//~global_temporary_variable = player_current_inventory
-//~player_current_inventory = targetInventory
 ~temp selectedItem = ()
 ~temp copyList = targetInventory
 <-loop(continuePoint, copyList)
@@ -205,10 +206,7 @@ LIST Type = List, String, Number
 ->continuePoint(targetItem)
 
 ===ShowAnyItemTunnel(targetInventory, ref selectedItem)
-//Use: ->ShowAnyItem(->continuePoint, targetinventory)
-//=continuePoint(itemChosen)
-//~global_temporary_variable = player_current_inventory
-//~player_current_inventory = targetInventory
+//Use: ->ShowAnyItem( targetinventory, outitem)
 ~temp copyList = targetInventory
 <-loop(selectedItem, copyList)
 
@@ -229,3 +227,62 @@ LIST Type = List, String, Number
 //~player_current_inventory = global_temporary_variable
 ~selectedItem = targetItem
 ->->
+
+// Map!
+===ShowMap
+#hideWriter
+{SetActive("MapControl", true)}
+#INK_UI_DISABLE_ALL_BUTTONS
+->ShowCustomButtonUI(->continue, locations)
+
+=continue(room)
+{SetActive("MapControl", false)}
+#showWriter #continue #clear
+{room:
+- LocControl:
+->Control
+- LocDock:
+->Dock
+- LocMess:
+->Mess
+- LocTool:
+->Tool
+- LocEngineering:
+->Engineering
+- LocBarrack:
+->Barrack
+- LocArmory:
+->Armory
+- LocHead:
+->Head
+- LocAdmin:
+->Admin
+- LocRecroom:
+->Recroom
+- else:
+(This should never happen. Sorry!)
+->DONE
+}
+
+
+===ShowCustomButtonUI(->continuePoint, targetInventory)
+//Use: ->ShowCustomButtonUI(->continuePoint, targetinventory)
+~temp selectedItem = ()
+~temp copyList = targetInventory
+<-loop(continuePoint, copyList)
+
++ ->
+~selectedItem = None
+->continuePoint(selectedItem)
+
+=loop(->continuePoint, copyList)
+{LIST_COUNT(copyList)>0:
+~temp item = pop(copyList)
+<-addItem(item, continuePoint)
+->loop(continuePoint, copyList)
+}
+
+=addItem(targetItem, ->continuePoint)
+~temp count = GetValueInt(targetItem, inventory_stack_dictionary)
++ [{GetDisplayName(targetItem)}{CustomUI(targetItem)}]
+->continuePoint(targetItem)
