@@ -155,7 +155,7 @@ New Task Received: {GetDisplayName(item)}.
 ~temp currentValue = CountTask(item, inventory)
 ~currentValue+=amount
 {AddToDictionary(item, currentValue, task_stack_dictionary)}
-Task ({GetDisplayName(item)}) Progress: {amount}.
+Task ({GetDisplayName(item)}) Progress: {currentValue}.
 }
 
 ===function RemoveTask(item, amount, ref inventory)===
@@ -171,18 +171,25 @@ Task ({GetDisplayName(item)}) Progress: {amount}.
 }
 {currentValue>0:
 {AddToDictionary(item, currentValue, task_stack_dictionary)}
+Removed Task ({GetDisplayName(item)}) Progress: {currentValue}.
 - else:
 {RemoveFromDictionary(item, task_stack_dictionary)}
 ~inventory-=item
+[color=red]Task Failed: {GetDisplayName(item)}![/color]
 }
-Removed Task ({GetDisplayName(item)}) Progress: {amount}.
 }
 
 ===function CountTask(item, inventory)===
 {inventory?item:
-~return GetValueInt(item, inventory_stack_dictionary)
+~return GetValueInt(item, task_stack_dictionary)
 -else:
 ~return 0
+}
+
+===function CompleteTask(task, inventory)
+{inventory?task:
+{AddToDictionary(task, 100, task_stack_dictionary)}
+[color=green]Completed Task: {GetDisplayName(task)}[/color]
 }
 
 // INVENTORY!

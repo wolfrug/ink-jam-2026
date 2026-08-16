@@ -13,6 +13,7 @@ public partial class InkItemList : ItemList
 	[Export] private string c_curItemVar = "curItem";
 	[Export] private string c_itemsInventory = "items";
 	[Export] private string c_cancelItemName = "None";
+	[Export] private string c_nameFormat = "{0} ({1})";
 	private const string c_getdisplaynamefunction = "GetDisplayName";
 	private const string c_getdescriptionFunction = "GetDescription";
 	private string currentSelectedItem = "";
@@ -40,11 +41,11 @@ public partial class InkItemList : ItemList
 		{
 			if (InventoryDictionary.TryGetValue(kvp.Key, out int index))
 			{
-				EditInventoryItem(index, GetDisplayName(kvp.Key) + " (" + kvp.Value + ")");
+				EditInventoryItem(index, FormatName(kvp.Key, kvp.Value));
 			}
 			else
 			{
-				NewInventoryItem(kvp.Key, GetDisplayName(kvp.Key) + (kvp.Value != "-1" ? " (" + kvp.Value + ")" : ""));
+				NewInventoryItem(kvp.Key, FormatName(kvp.Key, kvp.Value));
 			}
 			if (kvp.Key == currentSelectedItem)
 			{
@@ -57,6 +58,13 @@ public partial class InkItemList : ItemList
 		{
 			SetSelectedItem(-1);
 		}
+
+	}
+
+	public virtual string FormatName(string id, string value)
+	{
+		string displayName = GetDisplayName(id);
+		return string.Format(c_nameFormat, displayName, value);
 
 	}
 

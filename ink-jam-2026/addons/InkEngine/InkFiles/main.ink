@@ -35,11 +35,9 @@ VAR debug = false
 ~startingInventory = (Multimeter, Metasocket, SonicScrewdriver, VoltometricPump, Neurojack)
 ~locations = (LocDock, LocControl, LocAdmin)
 ~characters = (Jeanne, Amar, Marcus)
-{SetCrewStatus(Jeanne, Available)}
-{SetCrewStatus(Amar, Available)}
-{SetCrewStatus(Marcus, Available)}
+
 ->addStartingItem(startingInventory)->
-//->debugStart
+->debugStart
 
 #hideWriter
 {SetActive("SystemBox", false)}
@@ -57,8 +55,18 @@ VAR debug = false
 
 ==debugStart
 {AddTask(TaskMain, 0, tasks)}
+{SetCrewStatus(Jeanne, Available)}
+{SetCrewStatus(Amar, Available)}
+{SetCrewStatus(Marcus, Available)}
 This is the debug start. We need to add this here, or it doesn't work.
 
+- (options)
++ [Increase task completion +5]
+{AddTask(TaskMain, 5, tasks)}
+->options
++ [Remove task progress -3]
+{RemoveTask(TaskMain, 3, tasks)}
+->options
 + [Show map]
 ->ShowMap
 
@@ -96,18 +104,25 @@ This is the debug start. We need to add this here, or it doesn't work.
 ->intro_dialogues
 
 ==intro_dialogues
+{SetCrewStatus(Jeanne, Available)}
 {Say(Jeanne)}
 Good morning, my lovelies! 
 
 #wait.1
 
+{SetCrewStatus(Marcus, Available)}
 {Say(Marcus)}
 Morning.
 
 #wait.1.2
 
+{SetCrewStatus(Marcus, Available)}
+
 {Say(Amar)}
 Another day on the clock.
+{SetCrewStatus(Amar, Available)}
+
+#wait.1.2
 
 * [Good morning.]
 {Say(Player)}
