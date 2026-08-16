@@ -160,7 +160,7 @@ customLabels = {
 "TitleText": NodePath("Control/TitleText")
 }
 customActivatorNodes = {
-"SystemBox": NodePath("../InventorySystemBox")
+"SystemBox": NodePath("../SystemBox")
 }
 
 [node name="Control" type="Control" parent="InkUI" unique_id=1418245439]
@@ -345,28 +345,50 @@ custom_minimum_size = Vector2(140, 75)
 layout_mode = 2
 text = "Rec Room"
 
-[node name="InventorySystemBox" type="VBoxContainer" parent="." unique_id=1431639782]
-anchors_preset = -1
-anchor_top = 0.5
-anchor_bottom = 0.503
-offset_left = 67.0
-offset_top = 28.0
-offset_right = 494.0
-offset_bottom = 259.056
-grow_vertical = 2
-theme = ExtResource("4_tipki")
+[node name="SystemBox" type="TabContainer" parent="." unique_id=344843171]
+custom_minimum_size = Vector2(0, 50)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 68.0
+offset_top = -228.0
+offset_right = 489.0
+offset_bottom = -33.0
+grow_vertical = 0
+current_tab = 0
+tab_0/title = "Inventory"
+tab_1/title = "Crew"
+tab_2/title = "Tasks"
 script = ExtResource("11_ya4ey")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="InventorySystemBox" unique_id=946165075]
-custom_maximum_size = Vector2(-1, 45)
-layout_mode = 2
-size_flags_vertical = 3
-bbcode_enabled = true
-text = "Inventory"
-vertical_alignment = 1
-
-[node name="ItemList" type="ItemList" parent="InventorySystemBox" unique_id=268832841]
+[node name="ItemList" type="ItemList" parent="SystemBox" unique_id=268832841]
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("12_eb6dy")
 inventoryStackVariable = "inventory_stack_dictionary"
+metadata/_tab_index = 0
+metadata/_tab_name = "Inventory"
+
+[node name="ItemList2" type="ItemList" parent="SystemBox" unique_id=96365923]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("12_eb6dy")
+inventoryStackVariable = "crew_stack_dictionary"
+c_curItemVar = "curChar"
+c_itemsInventory = "characters"
+c_cancelItemName = "NoChar"
+metadata/_tab_index = 1
+metadata/_tab_name = "Crew"
+
+[node name="ItemList3" type="ItemList" parent="SystemBox" unique_id=894608583]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("12_eb6dy")
+inventoryStackVariable = "task_stack_dictionary"
+c_curItemVar = "curTask"
+c_itemsInventory = "tasks"
+c_cancelItemName = "NoTask"
+metadata/_tab_index = 2
+metadata/_tab_name = "Tasks"

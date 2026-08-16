@@ -1,7 +1,9 @@
 using Godot;
 using Godot.Collections;
+using Ink.Parsed;
 using System;
 using System.Linq;
+
 
 namespace MiTale
 {
@@ -107,6 +109,13 @@ namespace MiTale
                 GD.Print("No stylebox with ID " + id + " found!");
                 return null;
             }
+        }
+        public static string RemoveBBCode(string input)
+        {
+            var regex = new RegEx();
+            regex.Compile("\\[.*?\\]");
+            string text_without_tags = regex.Sub(input, "", true);
+            return text_without_tags;
         }
         /*
                 private static Godot.Collections.Dictionary<string, CharacterData> _allCharacterdatas = new Godot.Collections.Dictionary<string, CharacterData> { };

@@ -10,8 +10,9 @@ public partial class InkItemList : ItemList
 	private string inventoryStackVariable;
 	public Dictionary<string, int> InventoryDictionary = new Dictionary<string, int> { };
 
-	private const string c_curItemVar = "curItem";
-	private const string c_itemsInventory = "items";
+	[Export] private string c_curItemVar = "curItem";
+	[Export] private string c_itemsInventory = "items";
+	[Export] private string c_cancelItemName = "None";
 	private const string c_getdisplaynamefunction = "GetDisplayName";
 	private const string c_getdescriptionFunction = "GetDescription";
 	private string currentSelectedItem = "";
@@ -51,7 +52,7 @@ public partial class InkItemList : ItemList
 				hasSelectedItem = true;
 			}
 		}
-		NewInventoryItem("None", GetDisplayName("None"));
+		NewInventoryItem(c_cancelItemName, GetDisplayName(c_cancelItemName));
 		if (!hasSelectedItem)
 		{
 			SetSelectedItem(-1);
@@ -66,7 +67,8 @@ public partial class InkItemList : ItemList
 		//list.SetInitialOriginName("items");
 		list.AddItem(id);
 		var returnValue = Inkwriter.instance.Story.runtimeStory.EvaluateFunction(c_getdisplaynamefunction, out textOutput, new object[] { list });
-		return (string)returnValue;
+		string noBBCode = GlobalVariables.RemoveBBCode((string)returnValue);
+		return noBBCode;
 	}
 	public virtual string GetDescription(string id)
 	{
@@ -106,7 +108,7 @@ public partial class InkItemList : ItemList
 	}
 	public virtual void SetSelectedItem(int index)
 	{
-		string id = "None";
+		string id = c_cancelItemName;
 		if (InventoryDictionary.ContainsValue(index))
 		{
 			foreach (string keyVar in InventoryDictionary.Keys)

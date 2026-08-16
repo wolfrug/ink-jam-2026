@@ -8,14 +8,28 @@
 {target:
 - None:
 ~return "No Selection"
+- NoChar:
+~return "No Selection"
+- NoTask:
+~return "No Selection"
+
+- TaskMain:
+~return "Acquire Heatsink"
+- TaskRepair:
+~return "Repair"
+- TaskTrade:
+~return "Trade"
+- TaskSteal:
+~return "Steal"
+
 - Jeanne:
-~return "[color=red][hint=\"Jeanne Marten - Worker \# 91\"]Jeanne Marten[/hint][/color]"
+~return "[color=red]Jeanne Marten[/color]"
 - Amar:
-~return "[color=green][hint=\"Amar Khalasi - Worker \#567\"]Amar Khalasi[/hint][/color]"
+~return "[color=green]Amar Khalasi[/color]"
 - Marcus:
-~return "[color=yellow][hint=\"Marcus Paattinen - Worker \#12 \"]Marcus Paattinen[/hint][/color]"
+~return "[color=yellow]Marcus Paattinen[/color]"
 - Player:
-~return "[color=grey][hint=\"Worker \#278\"]Current User[/hint][/color]"
+~return "[color=grey]Current User[/color]"
 
 - Multimeter:
 ~return "Multimeter"
@@ -65,8 +79,28 @@
 ~return target
 }
 {target:
+
+- TaskMain:
+~return "Acquire a Mawker-Gleeson Thruster Heat Sink Mk. 3.[br]Assigned by: Cmdr. Amada.[br]Priority: [color=red]Red[/color]"
+- TaskRepair:
+~return "Repair the thing."
+- TaskTrade:
+~return "Trade the thing."
+-TaskSteal:
+~return "Steal the thing."
+
+- Jeanne:
+~return "Jeanne Marten - Engineer"
+- Amar:
+~return "Amar Khalasi - Jr. Engineer"
+- Marcus:
+~return "Marcus Paattinen - Mechanic"
 - None:
 ~return "No item selected."
+- NoChar:
+~return "No personnell selected."
+- NoTask:
+~return "No task selected."
 - Multimeter:
 ~return "Multimeter[br]Detects short-circuits, power-surges and measures everything electric you might need."
 - Metasocket:
@@ -120,6 +154,19 @@
 - else:
 ~return 0
 }
+
+===function GetDictionary(target)
+{LIST_ALL(items)?target:
+~return inventory_stack_dictionary
+}
+{LIST_ALL(characters)?target:
+~return crew_stack_dictionary
+}
+{LIST_ALL(tasks)?target:
+~return task_stack_dictionary
+}
+// Backup
+~return inventory_stack_dictionary
 
 ===function ToString(target)
 ~return "{target}"

@@ -4,11 +4,15 @@ LIST portraits = Player
 
 LIST backgrounds = Bck_None
 
-LIST characters = Jeanne, Amar, Marcus
+LIST characters = NoChar, Jeanne, Amar, Marcus
+
+LIST characterStates = Available, Unavailable, Busy, Ready
 
 LIST items = None, Multimeter, Metasocket, VoltometricPump, SonicScrewdriver, Ansible, Neurojack, CombatBiosoft, UtilityBiosoft, Ubik, HeatSink
 
 LIST locations = LocControl, LocDock, LocMess, LocTool, LocEngineering, LocBarrack, LocArmory, LocHead, LocAdmin, LocRecroom
+
+LIST tasks = NoTask, TaskMain, TaskRepair, TaskTrade, TaskSteal
 
 LIST themes = Theme_Label_Default, Theme_Label_Dialogue, Theme_Label_Narrator
 
@@ -16,7 +20,13 @@ VAR global_temporary_variable = ()
 
 VAR inventory_stack_dictionary = ""
 
+VAR crew_stack_dictionary = ""
+
+VAR task_stack_dictionary = ""
+
 VAR curItem = ()
+VAR curChar = ()
+VAR curTask = ()
 
 VAR startingInventory = ()
 
@@ -110,6 +120,70 @@ EXTERNAL EXT_Count(x)
 // Dialogues
 ===function Say(character)
  [right]{GetDisplayName(character)}[/right][hr][br][left]<>
+
+===function SetCrewStatus(crew, status)
+~temp crewStatus = GetCrewStatus(crew)
+{not (crewStatus?status):
+{AddToDictionary(crew, status, crew_stack_dictionary)}
+{GetDisplayName(crew)} is now {status}.
+}
+
+===function GetCrewStatus(crew)
+~temp stringstatus = GetValue(crew, crew_stack_dictionary)
+{type_of(stringstatus)?List:
+~return stringstatus
+}
+{stringstatus:
+- "Available":
+~return Available
+- "Unavailable":
+~return Unavailable
+- "Busy":
+~return Busy
+- "Ready":
+~return Ready
+- else:
+~return Unavailable
+}
+// TASK!
+===function AddTask(item, amount, ref inventory)===
+{not (inventory?item):
+~inventory+=item
+{AddToDictionary(item, amount, task_stack_dictionary)}
+New Task Received: {GetDisplayName(item)}.
+- else:
+~temp currentValue = CountTask(item, inventory)
+~currentValue+=amount
+{AddToDictionary(item, currentValue, task_stack_dictionary)}
+Task ({GetDisplayName(item)}) Progress: {amount}.
+}
+
+===function RemoveTask(item, amount, ref inventory)===
+~temp change = 0
+{inventory?item:
+~temp currentValue = CountTask(item, inventory)
+{currentValue>=amount:
+~currentValue-=amount
+~change = amount
+- else:
+~change = currentValue
+~currentValue = 0
+}
+{currentValue>0:
+{AddToDictionary(item, currentValue, task_stack_dictionary)}
+- else:
+{RemoveFromDictionary(item, task_stack_dictionary)}
+~inventory-=item
+}
+Removed Task ({GetDisplayName(item)}) Progress: {amount}.
+}
+
+===function CountTask(item, inventory)===
+{inventory?item:
+~return GetValueInt(item, inventory_stack_dictionary)
+-else:
+~return 0
+}
 
 // INVENTORY!
 ===function AddToInventory(item, amount, ref inventory)===

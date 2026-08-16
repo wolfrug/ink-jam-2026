@@ -30,10 +30,16 @@ VAR debug = false
 ==init
 
 ~curItem = None
+~curChar = NoChar
+~curTask = NoTask
 ~startingInventory = (Multimeter, Metasocket, SonicScrewdriver, VoltometricPump, Neurojack)
 ~locations = (LocDock, LocControl, LocAdmin)
+~characters = (Jeanne, Amar, Marcus)
+{SetCrewStatus(Jeanne, Available)}
+{SetCrewStatus(Amar, Available)}
+{SetCrewStatus(Marcus, Available)}
 ->addStartingItem(startingInventory)->
-->debugStart
+//->debugStart
 
 #hideWriter
 {SetActive("SystemBox", false)}
@@ -50,6 +56,7 @@ VAR debug = false
 }
 
 ==debugStart
+{AddTask(TaskMain, 0, tasks)}
 This is the debug start. We need to add this here, or it doesn't work.
 
 + [Show map]
@@ -172,7 +179,7 @@ So he starts ranting 'bout the Corp and how we're being treated worse than anima
 
 {Say(Amar)} If we don't get off this rock soon, it is only going to get worse...
 
-<Incoming Requisition Request>[br]<Priority: Red>[br]<Stand by...> #SystemText
+<Incoming Requisition Request>[br]<Priority: [color=red]Red[/color]>[br]<Stand by...> #SystemText
 
 * [We have an incoming request.]
 {Say(Player)} We have an incoming request.
@@ -183,17 +190,41 @@ But we have to see to this new request now.
 
 - {Say(Amar)} Ah, I do so love work. Lay it on us, Boss.
 
-<Requisition Request For: SSP-907 (Mawker-Gleeson Thruster Heat Sink Mk. 3)>[br]<Requested By: Cmdr. Amada>[br]<Priority: Red> #SystemText
-
+<Requisition Request For: SSP-907 (Mawker-Gleeson Thruster Heat Sink Mk. 3)>[br]<Requested By: Cmdr. Amada>[br]<Priority: [color=red]Red[/color]> #SystemText
+{AddTask(TaskMain, 0, tasks)}
 {Say(Jeanne)} Ohh...this is good news, isn't it? That's the thing we need.
 
 {Say(Amar)} But...Boss...if this was something we had all along, why didn't they requisition this earlier?
 
-* [We DON'T have it. System, update inventory.]
+* [We DON'T have it.]
 
-{Say(Player)}We DON'T have it. System, update inventory.
+- {Say(Player)}We DON'T have it.
 
+But they've stopped caring about HOW we get it. Red Priority means we can acquire it by any means necessary. Stealing it, bartering for it, whatever. As long as we get it.
 
+{Say(Amar)} I...do not think 'stealing' is in S-Corp's list of approved acquisition methods.
+
+{Say(Jeanne)} Do YOU want to stay on this rock indefinitely?
+
+{Say(Amar)} No, but...
+
+{Say(Jeanne)} What he's saying is leave the stealing to me.
+
+{Say(Amar)} I don't mind trading for it though. Perhaps something we already have might be interesting...
+
+{Say(Marcus)} Not interested. There is work to do.
+
+{Say(Jeanne)} Yeah, but...imagine showers? Imagine synthmeat? Imagine not looking at the same sweaty asses?
+
+{Say(Player)} All right, I get it. Amar - you're on trades. Jeanne - you're on...extracurriculars. And Marcus, you can just work.
+
+{Say(Marcus)} Will do, Boss.
+
+{Say(Jeanne)} Exciting!
+
+{Say(Amar)} Just tell us where to go.
+
+->ShowMap
 
 
 ->DONE
