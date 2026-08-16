@@ -14,6 +14,11 @@
 [ext_resource type="PackedScene" uid="uid://cvrpspo2y5rii" path="res://addons/InkEngine/Scenes/InkButton.tscn" id="11_trceg"]
 [ext_resource type="Script" uid="uid://bkaliqj4k1w72" path="res://scripts/SystemBox.cs" id="11_ya4ey"]
 [ext_resource type="Script" uid="uid://b46kxw1db7e36" path="res://addons/InkEngine/Scripts/InkItemList.cs" id="12_eb6dy"]
+[ext_resource type="Texture2D" uid="uid://ovbfvqaa6fkv" path="res://graphics/UI/MainPanel02.png" id="15_muem4"]
+[ext_resource type="Script" uid="uid://druk1qrveys8n" path="res://scripts/RoomMachine.cs" id="16_0ld40"]
+[ext_resource type="Texture2D" uid="uid://cfdxiik8010uj" path="res://graphics/UI/Slider01.png" id="17_0ld40"]
+[ext_resource type="Texture2D" uid="uid://dk3gcrqh1rm7h" path="res://graphics/UI/Slider03.png" id="17_gqmmt"]
+[ext_resource type="Texture2D" uid="uid://d21hklgdrd37q" path="res://graphics/UI/Button07.png" id="19_yc10j"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fqjnf"]
 texture = ExtResource("4_tbgi4")
@@ -23,6 +28,29 @@ texture_margin_right = 50.0
 texture_margin_bottom = 50.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rtbp5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_muem4"]
+bg_color = Color(0.8073999, 0.2516805, 0.24426249, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_njqwk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wi6ju"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7f2x3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xrivr"]
+bg_color = Color(0.18039216, 0.41568628, 0.4, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xrivr"]
+texture = ExtResource("17_0ld40")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+region_rect = Rect2(49.348946, 0, 195.65106, 18)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_13qdw"]
+bg_color = Color(0.07058824, 0.12156863, 0.16078432, 1)
 
 [node name="Control" type="CanvasLayer" unique_id=1811685178]
 
@@ -74,7 +102,7 @@ anchors_preset = -1
 anchor_right = 1.024
 anchor_bottom = 1.0
 offset_right = -0.19158936
-offset_bottom = -151.0
+offset_bottom = -173.70801
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_right = 25
@@ -250,7 +278,7 @@ grow_vertical = 2
 theme = ExtResource("4_tipki")
 script = ExtResource("11_a8y0u")
 inkUI = NodePath("..")
-parents = [NodePath("GridContainer/Row1"), NodePath("GridContainer/Row2"), NodePath("GridContainer/Row3"), NodePath("GridContainer/Row4")]
+parents = []
 
 [node name="GridContainer" type="GridContainer" parent="InkUI/MapControl" unique_id=1803446507]
 layout_mode = 1
@@ -362,15 +390,16 @@ tab_1/title = "Crew"
 tab_2/title = "Tasks"
 script = ExtResource("11_ya4ey")
 
-[node name="ItemList" type="ItemList" parent="SystemBox" unique_id=268832841]
+[node name="InventoryItemList" type="ItemList" parent="SystemBox" unique_id=268832841]
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("12_eb6dy")
 inventoryStackVariable = "inventory_stack_dictionary"
+c_disabledStates = PackedStringArray("0")
 metadata/_tab_index = 0
 metadata/_tab_name = "Inventory"
 
-[node name="ItemList2" type="ItemList" parent="SystemBox" unique_id=96365923]
+[node name="CrewItemList" type="ItemList" parent="SystemBox" unique_id=96365923]
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
@@ -380,10 +409,11 @@ c_curItemVar = "curChar"
 c_itemsInventory = "characters"
 c_cancelItemName = "NoChar"
 c_nameFormat = "{0} - {1}"
+c_disabledStates = PackedStringArray("Unavailable", "Busy", "Ready")
 metadata/_tab_index = 1
 metadata/_tab_name = "Crew"
 
-[node name="ItemList3" type="ItemList" parent="SystemBox" unique_id=894608583]
+[node name="TaskItemList" type="ItemList" parent="SystemBox" unique_id=894608583]
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
@@ -392,6 +422,171 @@ inventoryStackVariable = "task_stack_dictionary"
 c_curItemVar = "curTask"
 c_itemsInventory = "tasks"
 c_cancelItemName = "NoTask"
-c_nameFormat = "{0} ({1}%)"
+c_nameFormat = "{0}"
 metadata/_tab_index = 2
 metadata/_tab_name = "Tasks"
+
+[node name="RoomMachine" type="NinePatchRect" parent="." unique_id=1718028182 node_paths=PackedStringArray("taskName", "assignCrew", "assignedCrew", "assignItem", "assignedItem", "currentBar", "targetSlider", "targetBar", "playerSlider", "characterList", "itemList", "taskList")]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 171.0
+offset_top = -192.0
+offset_right = 800.0
+offset_bottom = 195.0
+grow_vertical = 2
+theme = ExtResource("4_tipki")
+texture = ExtResource("15_muem4")
+patch_margin_left = 40
+patch_margin_top = 40
+patch_margin_right = 40
+patch_margin_bottom = 40
+script = ExtResource("16_0ld40")
+taskName = NodePath("VBoxContainer/Title")
+assignCrew = NodePath("VBoxContainer/HBoxContainer/AssignCharacter")
+assignedCrew = NodePath("VBoxContainer/HBoxContainer/AssignedCharacter/CharacterLabel")
+assignItem = NodePath("VBoxContainer/HBoxContainer/AssignItem")
+assignedItem = NodePath("VBoxContainer/HBoxContainer/AssignedItem/ItemLabel")
+currentBar = NodePath("VBoxContainer/CurrentBar")
+targetSlider = NodePath("VBoxContainer/CurrentBar/CurrentBarSlider")
+targetBar = NodePath("VBoxContainer/TargetBar")
+playerSlider = NodePath("VBoxContainer/TargetBar/TargetBarSlider")
+characterList = NodePath("../SystemBox/CrewItemList")
+itemList = NodePath("../SystemBox/InventoryItemList")
+taskList = NodePath("../SystemBox/TaskItemList")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RoomMachine" unique_id=836106168]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 22
+
+[node name="Title" type="RichTextLabel" parent="RoomMachine/VBoxContainer" unique_id=1206184225]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+text = "Machine Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CurrentBarTitle" type="RichTextLabel" parent="RoomMachine/VBoxContainer" unique_id=606725289]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 16
+text = "Current State"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CurrentBar" type="ProgressBar" parent="RoomMachine/VBoxContainer" unique_id=911701169]
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_muem4")
+value = 31.24
+
+[node name="CurrentBarSlider" type="HSlider" parent="RoomMachine/VBoxContainer/CurrentBar" unique_id=107392037]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+offset_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_icons/grabber = ExtResource("17_gqmmt")
+theme_override_icons/grabber_highlight = ExtResource("17_gqmmt")
+theme_override_icons/grabber_disabled = ExtResource("17_gqmmt")
+theme_override_styles/slider = SubResource("StyleBoxEmpty_njqwk")
+theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_wi6ju")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_7f2x3")
+value = 45.0
+rounded = true
+editable = false
+scrollable = false
+tick_count = 10
+
+[node name="TargetBarTitle" type="RichTextLabel" parent="RoomMachine/VBoxContainer" unique_id=953284822]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 16
+text = "Target State"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TargetBar" type="ProgressBar" parent="RoomMachine/VBoxContainer" unique_id=2012940912]
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_xrivr")
+value = 16.0
+
+[node name="TargetBarSlider" type="HSlider" parent="RoomMachine/VBoxContainer/TargetBar" unique_id=1714686048]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 0.5
+offset_bottom = 17.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_icons/grabber = ExtResource("17_gqmmt")
+theme_override_icons/grabber_highlight = ExtResource("17_gqmmt")
+theme_override_icons/grabber_disabled = ExtResource("17_gqmmt")
+theme_override_styles/slider = SubResource("StyleBoxTexture_xrivr")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_13qdw")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_13qdw")
+value = 16.0
+rounded = true
+tick_count = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RoomMachine/VBoxContainer" unique_id=1842738711]
+layout_mode = 2
+alignment = 1
+
+[node name="AssignCharacter" parent="RoomMachine/VBoxContainer/HBoxContainer" unique_id=237547365 instance=ExtResource("11_trceg")]
+custom_minimum_size = Vector2(120, 0)
+custom_maximum_size = Vector2(-1, 50)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 30)
+offset_transform_visual_only = false
+text = "Assign Crew"
+
+[node name="AssignedCharacter" type="TextureRect" parent="RoomMachine/VBoxContainer/HBoxContainer" unique_id=226546766]
+layout_mode = 2
+texture = ExtResource("19_yc10j")
+
+[node name="CharacterLabel" type="RichTextLabel" parent="RoomMachine/VBoxContainer/HBoxContainer/AssignedCharacter" unique_id=891508050]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Jeanne"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AssignedItem" type="TextureRect" parent="RoomMachine/VBoxContainer/HBoxContainer" unique_id=922407558]
+layout_mode = 2
+texture = ExtResource("19_yc10j")
+
+[node name="ItemLabel" type="RichTextLabel" parent="RoomMachine/VBoxContainer/HBoxContainer/AssignedItem" unique_id=495582719]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Ansible"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AssignItem" parent="RoomMachine/VBoxContainer/HBoxContainer" unique_id=1457875045 instance=ExtResource("11_trceg")]
+custom_minimum_size = Vector2(120, 0)
+custom_maximum_size = Vector2(-1, 50)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 30)
+offset_transform_visual_only = false
+text = "Add Item"

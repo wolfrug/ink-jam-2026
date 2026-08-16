@@ -35,6 +35,7 @@ VAR debug = false
 ~startingInventory = (Multimeter, Metasocket, SonicScrewdriver, VoltometricPump, Neurojack)
 ~locations = (LocDock, LocControl, LocAdmin)
 ~characters = (Jeanne, Amar, Marcus)
+~task_main = CreateTask(TaskMain, GetDisplayName(TaskMain), "task_main", 0, 75, 100, NoChar, None, None, NoChar)
 
 ->addStartingItem(startingInventory)->
 ->debugStart
@@ -46,6 +47,7 @@ VAR debug = false
 =addStartingItem(ref itemsLeft)
 ~temp randomItem = pop(itemsLeft)
 ~temp randomAmount = RANDOM(1,3)
+~items+=randomItem
 {AddToDictionary(randomItem, randomAmount, inventory_stack_dictionary)}
 {LIST_COUNT(itemsLeft)>0:
 ->addStartingItem(itemsLeft)
@@ -61,6 +63,7 @@ VAR debug = false
 This is the debug start. We need to add this here, or it doesn't work.
 
 - (options)
+{task_main}
 + [Increase task completion +5]
 {AddTask(TaskMain, 5, tasks)}
 ->options
@@ -69,6 +72,12 @@ This is the debug start. We need to add this here, or it doesn't work.
 ->options
 + [Show map]
 ->ShowMap
++ [Assign item]
+{AssignItem(ToListItem(curItem, items), task_main)}
+->options
++ [Unassign item]
+{UnassignItem(task_main)}
+->options
 
 
 ==start

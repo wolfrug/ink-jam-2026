@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using GodotInk;
 using MiTale;
+using System.Reflection.Metadata.Ecma335;
+using Ink.Parsed;
 
 public partial class InkItemList : ItemList
 {
@@ -10,13 +12,14 @@ public partial class InkItemList : ItemList
 	private string inventoryStackVariable;
 	public Dictionary<string, int> InventoryDictionary = new Dictionary<string, int> { };
 
-	[Export] private string c_curItemVar = "curItem";
-	[Export] private string c_itemsInventory = "items";
-	[Export] private string c_cancelItemName = "None";
-	[Export] private string c_nameFormat = "{0} ({1})";
+	[Export] public string c_curItemVar = "curItem";
+	[Export] public string c_itemsInventory = "items";
+	[Export] public string c_cancelItemName = "None";
+	[Export] public string c_nameFormat = "{0} ({1})";
+	[Export] public string[] c_disabledStates = { "" };
 	private const string c_getdisplaynamefunction = "GetDisplayName";
 	private const string c_getdescriptionFunction = "GetDescription";
-	private string currentSelectedItem = "";
+	public string currentSelectedItem = "";
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -41,11 +44,11 @@ public partial class InkItemList : ItemList
 		{
 			if (InventoryDictionary.TryGetValue(kvp.Key, out int index))
 			{
-				EditInventoryItem(index, FormatName(kvp.Key, kvp.Value));
+				EditInventoryItem(kvp.Key, index, FormatName(kvp.Key, kvp.Value), null, CheckDisabled(kvp.Value));
 			}
 			else
 			{
-				NewInventoryItem(kvp.Key, FormatName(kvp.Key, kvp.Value));
+				NewInventoryItem(kvp.Key, FormatName(kvp.Key, kvp.Value), null, CheckDisabled(kvp.Value));
 			}
 			if (kvp.Key == currentSelectedItem)
 			{
@@ -67,24 +70,40 @@ public partial class InkItemList : ItemList
 		return string.Format(c_nameFormat, displayName, value);
 
 	}
+	public virtual bool CheckDisabled(string item)
+	{
+		if (c_disabledStates.Length == 0) { return false; }
+		;
+
+		foreach (string v in c_disabledStates)
+		{
+			if (item == v)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public virtual string GetDisplayName(string id)
 	{
-		string textOutput;
+		if (id == "")
+		{
+			id = c_cancelItemName;
+		}
 		Ink.Runtime.InkList list = new Ink.Runtime.InkList(c_itemsInventory, Inkwriter.instance.Story.runtimeStory);
 		//list.SetInitialOriginName("items");
 		list.AddItem(id);
-		var returnValue = Inkwriter.instance.Story.runtimeStory.EvaluateFunction(c_getdisplaynamefunction, out textOutput, new object[] { list });
+		var returnValue = Inkwriter.instance.Story.runtimeStory.EvaluateFunction(c_getdisplaynamefunction, out string textOutput, new object[] { list });
 		string noBBCode = GlobalVariables.RemoveBBCode((string)returnValue);
 		return noBBCode;
 	}
 	public virtual string GetDescription(string id)
 	{
-		string textOutput;
 		Ink.Runtime.InkList list = new Ink.Runtime.InkList(c_itemsInventory, Inkwriter.instance.Story.runtimeStory);
 		//list.SetInitialOriginName("items");
 		list.AddItem(id);
-		var returnValue = Inkwriter.instance.Story.runtimeStory.EvaluateFunction(c_getdescriptionFunction, out textOutput, new object[] { list });
+		var returnValue = Inkwriter.instance.Story.runtimeStory.EvaluateFunction(c_getdescriptionFunction, out string textOutput, new object[] { list });
 		GD.Print("InkItemList: received GetDescription of item with id " + id + ": " + (string)returnValue);
 		return (string)returnValue;
 	}
@@ -99,41 +118,42 @@ public partial class InkItemList : ItemList
 		return tooltip;
 	}
 
-	public virtual void NewInventoryItem(string id, string itemName, Texture2D icon = null, bool selectable = true)
+	public virtual void NewInventoryItem(string id, string itemName, Texture2D icon = null, bool disabled = false)
 	{
 		if (!InventoryDictionary.ContainsKey(id))
 		{
-			int index = AddItem(itemName, icon, selectable);
+			int index = AddItem(itemName, icon, true);
+			SetItemDisabled(index, disabled);
 			SetItemTooltip(index, GetDescription(id));
 			InventoryDictionary.Add(id, index);
 		}
 	}
-	public virtual void EditInventoryItem(int index, string itemName, Texture2D icon = null, bool selectable = true)
+	public virtual void EditInventoryItem(string id, int index, string itemName, Texture2D icon = null, bool disabled = false)
 	{
 		SetItemText(index, itemName);
 		SetItemIcon(index, icon);
-		SetItemSelectable(index, selectable);
+		SetItemSelectable(index, true);
+		SetItemDisabled(index, disabled);
 	}
 	public virtual void SetSelectedItem(int index)
 	{
-		string id = c_cancelItemName;
+		string id = GetIdByIndex(index);
+		Inkwriter.instance.Story.StoreVariable(c_curItemVar, id);
+		currentSelectedItem = id;
+		GD.Print("Selected item is: " + id);
+	}
+	public string GetIdByIndex(int index)
+	{
 		if (InventoryDictionary.ContainsValue(index))
 		{
 			foreach (string keyVar in InventoryDictionary.Keys)
 			{
 				if (InventoryDictionary[keyVar] == index)
 				{
-					id = keyVar;
+					return keyVar;
 				}
 			}
 		}
-
-		Ink.Runtime.InkList list = new Ink.Runtime.InkList(c_itemsInventory, Inkwriter.instance.Story.runtimeStory);
-		//list.SetInitialOriginName("items");
-		list.AddItem(id);
-
-		Inkwriter.instance.Story.runtimeStory.variablesState[c_curItemVar] = list;
-		currentSelectedItem = id;
-		GD.Print("Selected item is: " + id);
+		return c_cancelItemName;
 	}
 }

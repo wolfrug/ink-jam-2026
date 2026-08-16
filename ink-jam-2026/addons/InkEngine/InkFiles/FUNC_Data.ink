@@ -1,6 +1,5 @@
 // All of the Big Switch Statements go here
 
-
 ===function GetDisplayName(target)
 {type_of(target)?String:
 ~return target
@@ -168,5 +167,29 @@
 // Backup
 ~return inventory_stack_dictionary
 
+===function GetTaskVariable(target)
+// External function
+~target = ToListItem(target, tasks)
+{target:
+- TaskMain:
+~return task_main
+- else:
+~return ""
+}
+
 ===function ToString(target)
 ~return "{target}"
+
+===function ToListItem(target, originlist)
+~temp fullList = LIST_ALL(originlist)
+~target = ToString(target)
+~return _ToListItem(target, fullList)
+
+===function _ToListItem(target, ref list)
+~temp entry = pop(list)
+//Entry: {entry}
+{ToString(entry)==target:
+~return entry
+- else:
+~return _ToListItem(target, list)
+}

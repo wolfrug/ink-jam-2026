@@ -16,6 +16,10 @@ LIST tasks = NoTask, TaskMain, TaskRepair, TaskTrade, TaskSteal
 
 LIST themes = Theme_Label_Default, Theme_Label_Dialogue, Theme_Label_Narrator
 
+LIST taskParts = TaskId, TaskName, TaskVariable, TaskCurState, TaskMinimumState, TaskPlayerSetState, TaskWorker, TaskItem, TaskItemRequirement, TaskWorkerRequirement
+
+VAR task_main = ""
+
 VAR global_temporary_variable = ()
 
 VAR inventory_stack_dictionary = ""
@@ -146,6 +150,109 @@ EXTERNAL EXT_Count(x)
 ~return Unavailable
 }
 // TASK!
+
+===function CreateTask(taskId, taskName, taskVariable, taskCurState, taskMinimumState, taskPlayerSetState, taskWorker, taskItem, taskItemRequirement, taskWorkerRequirement)
+~temp returnValue = ""
+{AddToDictionary(TaskId, taskId, returnValue)}
+{AddToDictionary(TaskName, taskName, returnValue)}
+{AddToDictionary(TaskVariable, taskVariable, returnValue)}
+{AddToDictionary(TaskCurState, taskCurState, returnValue)}
+{AddToDictionary(TaskMinimumState, taskMinimumState, returnValue)}
+{AddToDictionary(TaskPlayerSetState, taskPlayerSetState, returnValue)}
+{AddToDictionary(TaskWorker, taskWorker, returnValue)}
+{AddToDictionary(TaskItem, taskItem, returnValue)}
+{AddToDictionary(TaskItemRequirement, taskItemRequirement, returnValue)}
+{AddToDictionary(TaskWorkerRequirement, taskWorkerRequirement, returnValue)}
+~return returnValue
+
+===function SetTaskValue(taskType, newValue, ref task_variable)
+{AddToDictionary(taskType, newValue, task_variable)}
+
+===function SetTaskValueReturn(taskType, newValue, task_variable)
+~temp returnVal = task_variable
+{AddToDictionary(taskType, newValue, returnVal)}
+~return returnVal
+
+===function GetTaskValue(taskType, task_var)
+{taskType:
+- TaskCurState:
+~return GetValueInt(taskType, task_var)
+- TaskMinimumState:
+~return GetValueInt(taskType, task_var)
+- TaskPlayerSetState:
+~return GetValueInt(taskType, task_var)
+- TaskWorker:
+~return ToListItem(GetValue(taskType, task_var), characters)
+- TaskWorkerRequirement:
+~return ToListItem(GetValue(taskType, task_var), characters)
+- TaskItem:
+~return ToListItem(GetValue(taskType, task_var), items)
+- TaskItemRequirement:
+~return ToListItem(GetValue(taskType, task_var), items)
+- else:
+~return GetValue(taskType, task_var)
+}
+
+===function AssignCrew(crew, ref task)
+{GetCrewStatus(crew)?Available:
+{SetCrewStatus(crew, Busy)}
+{UnassignCrew(task)}
+{SetTaskValue(TaskWorker, crew, task)}
+}
+===function AssignCrewReturn(crew, task)
+~crew = ToListItem(crew, characters)
+{GetCrewStatus(crew)?Available:
+{UnassignCrew(task)}
+{SetCrewStatus(crew, Busy)}
+~task = SetTaskValueReturn(TaskWorker, crew, task)
+}
+~return task
+
+===function UnassignCrew(ref task)
+{GetTaskValue(TaskWorker, task) != NoChar:
+~temp currentCrew = GetTaskValue(TaskWorker, task)
+{SetTaskValue(TaskWorker, NoChar, task)}
+{SetCrewStatus(currentCrew, Available)}
+}
+===function UnassignCrewReturn(task)
+{GetTaskValue(TaskWorker, task) != NoChar:
+~temp currentCrew = GetTaskValue(TaskWorker, task)
+~task = SetTaskValueReturn(TaskWorker, NoChar, task)
+{SetCrewStatus(currentCrew, Available)}
+}
+~return task
+
+===function AssignItem(item, ref task)
+{CountItem(item, items)>0:
+{UnassignItem(task)}
+{RemoveFromInventory(item, 1, items)}
+{SetTaskValue(TaskItem, item, task)}
+}
+
+===function UnassignItem(ref task)
+{GetTaskValue(TaskItem, task) != None:
+~temp item = GetTaskValue(TaskItem, task)
+{SetTaskValue(TaskItem, None, task)}
+{AddToInventory(item, 1, items)}
+}
+
+===function AssignItemReturn(item, task)
+~item = ToListItem(item, items)
+{CountItem(item, items)>0:
+{UnassignItem(task)}
+{RemoveFromInventory(item, 1, items)}
+~task = SetTaskValueReturn(TaskItem, item, task)
+}
+~return task
+
+===function UnassignItemReturn(task)
+{GetTaskValue(TaskItem, task) != None:
+{AddToInventory(GetTaskValue(TaskItem, task), 1, items)}
+~task = SetTaskValueReturn(TaskItem, None, task)
+}
+~return task
+
+
 ===function AddTask(item, amount, ref inventory)===
 {not (inventory?item):
 ~inventory+=item
