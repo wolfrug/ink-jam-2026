@@ -47,6 +47,7 @@ public partial class RoomMachine : InkUINode
         playerSlider.ValueChanged += UpdateTargetBar;
         assignCrew.Pressed += AddOrRemoveWorker;
         assignItem.Pressed += AddOrRemoveItem;
+        UpdateTask("");
     }
 
     public override void Activate(string tag)

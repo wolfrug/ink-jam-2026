@@ -18,6 +18,8 @@ LIST themes = Theme_Label_Default, Theme_Label_Dialogue, Theme_Label_Narrator
 
 LIST taskParts = TaskId, TaskName, TaskVariable, TaskCurState, TaskMinimumState, TaskPlayerSetState, TaskWorker, TaskItem, TaskItemRequirement, TaskWorkerRequirement
 
+LIST victoryConditions = Heat, Morale, Hull
+
 VAR task_main = ""
 
 VAR global_temporary_variable = ()
@@ -27,6 +29,12 @@ VAR inventory_stack_dictionary = ""
 VAR crew_stack_dictionary = ""
 
 VAR task_stack_dictionary = ""
+
+VAR temperature = 40.5
+VAR maxTemperature = 50
+VAR minTemperature = -20
+VAR morale = 71
+VAR hull = 100
 
 VAR curItem = ()
 VAR curChar = ()
@@ -120,6 +128,40 @@ EXTERNAL EXT_Count(x)
 ===function PlayMusic(music)
 #PLAY_MUSIC:{music}
 
+// Victory conditions
+===function ChangeTemperature(amount)
+~temperature += amount
+{temperature>=maxTemperature:
+You have boiled over. You lost.
+{EndGame()}
+}
+{temperature<minTemperature:
+You have frozen over. You lost.
+{EndGame()}
+}
+
+===function ChangeMorale(amount)
+~morale+=amount
+{morale > 100:
+~morale = 100
+}
+{morale<=0:
+Mutiny! You have lost.
+{EndGame()}
+}
+
+===function ChangeHull(amount)
+~hull-=amount
+{hull>100:
+~hull = 100
+}
+{hull<=0:
+The ship is broken! Death!
+{EndGame()}
+}
+
+===function EndGame()
+The game is over. #endGame
 
 // Dialogues
 ===function Say(character)

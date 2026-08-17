@@ -29,6 +29,11 @@ VAR debug = false
 
 ==init
 
+~temperature = RANDOM(28, 39)
+~temperature += 0.2
+~morale = RANDOM(58,85)
+~hull = 100
+
 ~curItem = None
 ~curChar = NoChar
 ~curTask = NoTask
@@ -38,10 +43,11 @@ VAR debug = false
 ~task_main = CreateTask(TaskMain, GetDisplayName(TaskMain), "task_main", 0, 75, 100, NoChar, None, None, NoChar)
 
 ->addStartingItem(startingInventory)->
-->debugStart
+//->debugStart
 
 #hideWriter
 {SetActive("SystemBox", false)}
+{SetActive("VictoryConditions", false)}
 ->start
 
 =addStartingItem(ref itemsLeft)
@@ -87,6 +93,8 @@ This is the debug start. We need to add this here, or it doesn't work.
 <Initializing Inventory System> #SystemText
 <>[br]<>
 <Initializing Chat System> #SystemText
+<>[br]<>
+<Initializing Danger Indicators> #SystemText
 
 ... #wait.3 #SystemText
 
@@ -98,7 +106,11 @@ This is the debug start. We need to add this here, or it doesn't work.
 
 ... #wait.1.5 #SystemText
 
-<Initialization done.> #SystemText
+<Danger Indicators Initialized> {SetActive("VictoryConditions", true)} #SystemText
+
+... #wait.1.5 #SystemText
+
+<Initialization Complete.> #SystemText
 <>[br]<>
 <Good morning, Worker\#278.>
 <>[br]<>

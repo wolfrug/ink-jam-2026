@@ -18,7 +18,9 @@
 [ext_resource type="Script" uid="uid://druk1qrveys8n" path="res://scripts/RoomMachine.cs" id="16_0ld40"]
 [ext_resource type="Texture2D" uid="uid://cfdxiik8010uj" path="res://graphics/UI/Slider01.png" id="17_0ld40"]
 [ext_resource type="Texture2D" uid="uid://dk3gcrqh1rm7h" path="res://graphics/UI/Slider03.png" id="17_gqmmt"]
+[ext_resource type="FontFile" uid="uid://cn0jy6vqknn6v" path="res://fonts/TextMeOne-Regular.ttf" id="17_yc10j"]
 [ext_resource type="Texture2D" uid="uid://d21hklgdrd37q" path="res://graphics/UI/Button07.png" id="19_yc10j"]
+[ext_resource type="Script" uid="uid://dttkpptvdqduj" path="res://scripts/VictoryConditions.cs" id="21_yc10j"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fqjnf"]
 texture = ExtResource("4_tbgi4")
@@ -51,6 +53,15 @@ region_rect = Rect2(49.348946, 0, 195.65106, 18)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_13qdw"]
 bg_color = Color(0.07058824, 0.12156863, 0.16078432, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_njqwk"]
+bg_color = Color(0.70592326, 0.17629007, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wi6ju"]
+bg_color = Color(0.37762484, 0.68442136, 0.37858298, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7f2x3"]
+bg_color = Color(0.044637203, 0.15919495, 0.33168656, 1)
 
 [node name="Control" type="CanvasLayer" unique_id=1811685178]
 
@@ -188,7 +199,9 @@ customLabels = {
 "TitleText": NodePath("Control/TitleText")
 }
 customActivatorNodes = {
-"SystemBox": NodePath("../SystemBox")
+"RoomMachine": NodePath("../RoomMachine"),
+"SystemBox": NodePath("../SystemBox"),
+"VictoryConditions": NodePath("../VictoryConditions")
 }
 
 [node name="Control" type="Control" parent="InkUI" unique_id=1418245439]
@@ -206,7 +219,7 @@ layout_mode = 0
 offset_left = 58.0
 offset_top = 109.0
 offset_right = 536.0
-offset_bottom = 341.0
+offset_bottom = 250.0
 size_flags_horizontal = 3
 vertical = true
 script = ExtResource("9_choun")
@@ -481,6 +494,7 @@ vertical_alignment = 1
 
 [node name="CurrentBar" type="ProgressBar" parent="RoomMachine/VBoxContainer" unique_id=911701169]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("17_yc10j")
 theme_override_styles/fill = SubResource("StyleBoxFlat_muem4")
 value = 31.24
 
@@ -516,6 +530,7 @@ vertical_alignment = 1
 
 [node name="TargetBar" type="ProgressBar" parent="RoomMachine/VBoxContainer" unique_id=2012940912]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("17_yc10j")
 theme_override_styles/fill = SubResource("StyleBoxFlat_xrivr")
 value = 16.0
 
@@ -529,6 +544,7 @@ offset_top = 0.5
 offset_bottom = 17.5
 grow_horizontal = 2
 grow_vertical = 0
+mouse_default_cursor_shape = 2
 theme_override_icons/grabber = ExtResource("17_gqmmt")
 theme_override_icons/grabber_highlight = ExtResource("17_gqmmt")
 theme_override_icons/grabber_disabled = ExtResource("17_gqmmt")
@@ -590,3 +606,102 @@ offset_transform_enabled = true
 offset_transform_position = Vector2(0, 30)
 offset_transform_visual_only = false
 text = "Add Item"
+
+[node name="VictoryConditions" type="HBoxContainer" parent="." unique_id=828664858 node_paths=PackedStringArray("temperatureBar", "temperatureText", "moraleBar", "hullBar")]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -285.0
+offset_top = -196.0
+offset_right = -3.0
+offset_bottom = -34.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme = ExtResource("4_tipki")
+theme_override_constants/separation = 20
+alignment = 1
+script = ExtResource("21_yc10j")
+temperatureBar = NodePath("TemperatureBar")
+temperatureText = NodePath("TemperatureBar/TemperatureLabel")
+moraleBar = NodePath("MoraleBar")
+hullBar = NodePath("HullBar")
+
+[node name="TemperatureBar" type="ProgressBar" parent="VictoryConditions" unique_id=1653765911]
+custom_minimum_size = Vector2(35, 200)
+layout_mode = 2
+tooltip_text = "Test"
+theme_override_fonts/font = ExtResource("17_yc10j")
+theme_override_styles/fill = SubResource("StyleBoxFlat_njqwk")
+min_value = -20.0
+max_value = 50.0
+value = 23.5
+fill_mode = 3
+show_percentage = false
+
+[node name="TemperatureLabel" type="RichTextLabel" parent="VictoryConditions/TemperatureBar" unique_id=1019553304]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 98.18182
+offset_right = 157.2727
+offset_bottom = 132.7273
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5707964
+theme_override_font_sizes/normal_font_size = 16
+text = "Temperature - 23.5°C"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MoraleBar" type="ProgressBar" parent="VictoryConditions" unique_id=776950855]
+custom_minimum_size = Vector2(35, 200)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("17_yc10j")
+theme_override_styles/fill = SubResource("StyleBoxFlat_wi6ju")
+value = 62.58
+fill_mode = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VictoryConditions/MoraleBar" unique_id=1068732244]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 72.626526
+offset_right = 131.7174
+offset_bottom = 107.172
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5707964
+theme_override_font_sizes/normal_font_size = 16
+text = "Morale"
+vertical_alignment = 1
+
+[node name="HullBar" type="ProgressBar" parent="VictoryConditions" unique_id=667221148]
+custom_minimum_size = Vector2(35, 200)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("17_yc10j")
+theme_override_styles/fill = SubResource("StyleBoxFlat_7f2x3")
+value = 62.58
+fill_mode = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VictoryConditions/HullBar" unique_id=1727993077]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 72.626465
+offset_right = 131.71735
+offset_bottom = 107.171936
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5707964
+theme_override_font_sizes/normal_font_size = 16
+text = "Hull"
+vertical_alignment = 1
